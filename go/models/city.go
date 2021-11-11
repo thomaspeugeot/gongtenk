@@ -7,6 +7,7 @@ type City struct {
 	TwinLat    float64
 	TwinLng    float64
 	Population int
+	Twin       bool // false if this is the original city, true if it has been translated
 	Country    *Country
 }
 
@@ -23,6 +24,14 @@ func (city *City) GetVerticalSpeed() float64 { return 0.0 }
 func (city *City) GetLevel() float64         { return 0.0 }
 func (city *City) GetName() (name string)    { return city.Name }
 
-func (*City) GetLayerGroupName() (name string) { return "Cities" }
+func (city *City) GetLayerGroupName() (layerName string) {
+
+	if !city.Twin {
+		layerName = "Cities"
+	} else {
+		layerName = "TwinCities"
+	}
+	return
+}
 
 func (city *City) GetDisplay() bool { return true }

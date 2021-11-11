@@ -12,7 +12,6 @@ import (
 func attachVisualTrack(track gongleaflet_models.VisualTrackInterface,
 	divIcon *gongleaflet_models.DivIcon,
 	colorEnum gongleaflet_models.ColorEnum,
-	layerGroup *gongleaflet_models.LayerGroup,
 	displayTrackHistory bool,
 	displayLevelAndSpeed bool) {
 
@@ -27,7 +26,6 @@ func attachVisualTrack(track gongleaflet_models.VisualTrackInterface,
 	visualTrack.DisplayTrackHistory = displayTrackHistory
 	visualTrack.DisplayLevelAndSpeed = displayLevelAndSpeed
 	visualTrack.ColorEnum = colorEnum
-	visualTrack.LayerGroup = layerGroup
 	visualTrack.UpdateTrack()
 }
 
@@ -66,15 +64,19 @@ func attachCircle(
 	visualCircle.UpdateCircle()
 }
 
-func AttachVisualElementsToModelElements(layerGroup *gongleaflet_models.LayerGroup) {
+func AttachVisualElementsToModelElements() {
 
 	for city := range models.Stage.Citys {
 		_ = city
-		if city.Population < 100000 {
+		if city.Population < 10000 {
 			continue
 		}
 
-		attachVisualTrack(city, icons.Dot_10, gongleaflet_models.GREY, layerGroup, false, false)
+		if city.Twin {
+			attachVisualTrack(city, icons.Dot_10, gongleaflet_models.GREY, false, false)
+		} else {
+			attachVisualTrack(city, icons.Dot_10, gongleaflet_models.GREEN, false, false)
+		}
 	}
 
 }

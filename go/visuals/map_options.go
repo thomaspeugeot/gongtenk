@@ -36,7 +36,7 @@ var FranceMapOptionsCitiesLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
 }).StageCopy()
 
 var FranceMapOptionsCitiesTwinLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
-	Name:       "Twin Cities",
+	Name:       "TwinCities",
 	LayerGroup: TwinCitiesLayerGroup,
 	Display:    true,
 }).StageCopy()
@@ -73,7 +73,7 @@ var HaitiMapOptionsCitiesLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
 }).StageCopy()
 
 var HaitiMapOptionsCitiesTwinLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
-	Name:       "Twin Cities",
+	Name:       "TwinCities",
 	LayerGroup: TwinCitiesLayerGroup,
 	Display:    true,
 }).StageCopy()

@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/fs"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -94,8 +95,7 @@ func main() {
 	currentTranslation := translation.GetTranslateCurrent()
 
 	// setup translation
-	currentTranslation.SetSourceCountry("fra")
-	currentTranslation.SetTargetCountry("hti")
+	translation.Info.SetOutput(ioutil.Discard)
 
 	citiesSheet := file.Sheets[0]
 	for idx, row := range citiesSheet.Rows {
@@ -124,16 +124,27 @@ func main() {
 		city.Country = country
 
 		if countryString == "France" {
-			_, _, _, xSpread, ySpread, _ :=
-				currentTranslation.BodyCoordsInSourceCountry(city.Lat, city.Lng)
-
-			latTarget, lngTarget := currentTranslation.LatLngToXYInTargetCountry(xSpread, ySpread)
-			city.TwinLat = latTarget
-			city.TwinLng = lngTarget
+			currentTranslation.SetSourceCountry("fra")
+			currentTranslation.SetTargetCountry("hti")
+		} else {
+			currentTranslation.SetSourceCountry("hti")
+			currentTranslation.SetTargetCountry("fra")
 		}
+		_, _, _, xSpread, ySpread, _ :=
+			currentTranslation.BodyCoordsInSourceCountry(city.Lat, city.Lng)
+
+		latTarget, lngTarget := currentTranslation.LatLngToXYInTargetCountry(xSpread, ySpread)
+		city.TwinLat = latTarget
+		city.TwinLng = lngTarget
+
+		twinCity := new(models.City).Stage()
+		*twinCity = *city
+		twinCity.Lat = city.TwinLat
+		twinCity.Lng = city.TwinLng
+		twinCity.Twin = true
 	}
 
-	visuals.AttachVisualElementsToModelElements(visuals.CitiesLayerGroup)
+	visuals.AttachVisualElementsToModelElements()
 
 	gongleaflet_models.Stage.Commit()
 	gongxlsx_models.Stage.Commit()
