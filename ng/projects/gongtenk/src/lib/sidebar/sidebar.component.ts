@@ -8,8 +8,8 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { CommitNbService } from '../commitnb.service'
 
 // insertion point for per struct import code
-import { ConfigurationService } from '../configuration.service'
-import { getConfigurationUniqueID } from '../front-repo.service'
+import { IndividualService } from '../individual.service'
+import { getIndividualUniqueID } from '../front-repo.service'
 
 /**
  * Types of a GongNode / GongFlatNode
@@ -145,7 +145,7 @@ export class SidebarComponent implements OnInit {
     private commitNbService: CommitNbService,
 
     // insertion point for per struct service declaration
-    private configurationService: ConfigurationService,
+    private individualService: IndividualService,
   ) { }
 
   ngOnInit(): void {
@@ -153,7 +153,7 @@ export class SidebarComponent implements OnInit {
 
     // insertion point for per struct observable for refresh trigger
     // observable for changes in structs
-    this.configurationService.ConfigurationServiceChanged.subscribe(
+    this.individualService.IndividualServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -185,22 +185,22 @@ export class SidebarComponent implements OnInit {
       
       // insertion point for per struct tree construction
       /**
-      * fill up the Configuration part of the mat tree
+      * fill up the Individual part of the mat tree
       */
-      let configurationGongNodeStruct: GongNode = {
-        name: "Configuration",
+      let individualGongNodeStruct: GongNode = {
+        name: "Individual",
         type: GongNodeType.STRUCT,
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
-        structName: "Configuration",
+        structName: "Individual",
         associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
       nonInstanceNodeId = nonInstanceNodeId + 1
-      this.gongNodeTree.push(configurationGongNodeStruct)
+      this.gongNodeTree.push(individualGongNodeStruct)
 
-      this.frontRepo.Configurations_array.sort((t1, t2) => {
+      this.frontRepo.Individuals_array.sort((t1, t2) => {
         if (t1.Name > t2.Name) {
           return 1;
         }
@@ -210,19 +210,19 @@ export class SidebarComponent implements OnInit {
         return 0;
       });
 
-      this.frontRepo.Configurations_array.forEach(
-        configurationDB => {
-          let configurationGongNodeInstance: GongNode = {
-            name: configurationDB.Name,
+      this.frontRepo.Individuals_array.forEach(
+        individualDB => {
+          let individualGongNodeInstance: GongNode = {
+            name: individualDB.Name,
             type: GongNodeType.INSTANCE,
-            id: configurationDB.ID,
-            uniqueIdPerStack: getConfigurationUniqueID(configurationDB.ID),
-            structName: "Configuration",
+            id: individualDB.ID,
+            uniqueIdPerStack: getIndividualUniqueID(individualDB.ID),
+            structName: "Individual",
             associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          configurationGongNodeStruct.children!.push(configurationGongNodeInstance)
+          individualGongNodeStruct.children!.push(individualGongNodeInstance)
 
           // insertion point for per field code
         }

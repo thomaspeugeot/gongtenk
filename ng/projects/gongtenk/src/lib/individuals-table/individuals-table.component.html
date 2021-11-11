@@ -3,7 +3,7 @@
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
     </mat-form-field>
-    <h1 *ngIf="dialogData">configuration</h1>
+    <h1 *ngIf="dialogData">individual</h1>
     <table class="table" mat-table [dataSource]="matTableDataSource" matSort>
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select" sticky>
@@ -21,27 +21,27 @@
         <!-- -->
         <ng-container matColumnDef="Name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-            <td mat-cell *matCellDef="let Configuration">
-                {{Configuration.Name}}
+            <td mat-cell *matCellDef="let Individual">
+                {{Individual.Name}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
-            <td mat-cell *matCellDef="let Configuration"> {{Configuration.ID}} </td>
+            <td mat-cell *matCellDef="let Individual"> {{Individual.ID}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Edit">
             <th mat-header-cell *matHeaderCellDef> Edit </th>
-            <td mat-cell *matCellDef="let configuration;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(configuration.ID)">edit</i>
+            <td mat-cell *matCellDef="let individual;  let j = index;">
+                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(individual.ID)">edit</i>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="Delete">
             <th mat-header-cell *matHeaderCellDef> Delete </th>
-            <td mat-cell *matCellDef="let configuration;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteConfiguration(configuration.ID, configuration)">delete</i>
+            <td mat-cell *matCellDef="let individual;  let j = index;">
+                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteIndividual(individual.ID, individual)">delete</i>
             </td>
         </ng-container>
 

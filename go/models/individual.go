@@ -1,5 +1,5 @@
 package models
 
-type Configuration struct {
+type Individual struct {
 	Name string
 }

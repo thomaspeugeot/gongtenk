@@ -1,8 +1,8 @@
 
-<div class="presentation__header" (click)="setEditorRouterOutlet(configuration.ID)">
-    <h1>Configuration's fields <span class="material-icons">edit</span></h1>
+<div class="presentation__header" (click)="setEditorRouterOutlet(individual.ID)">
+    <h1>Individual's fields <span class="material-icons">edit</span></h1>
 </div>
-<table *ngIf="configuration" class="presentation__table mat-table">
+<table *ngIf="individual" class="presentation__table mat-table">
     <tr class="mat-header-row">
         <th class="mat-header-cell">Name</th>
         <th class="mat-header-cell">Value</th>
@@ -10,7 +10,7 @@
     <!-- insertion point for fields specific code -->
     <tr class="mat-row">
         <td class="mat-cell">Name</td>
-        <td class="mat-cell">{{configuration.Name}}</td>
+        <td class="mat-cell">{{individual.Name}}</td>
     </tr>
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->

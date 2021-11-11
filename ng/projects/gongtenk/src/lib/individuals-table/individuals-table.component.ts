@@ -14,8 +14,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 const allowMultiSelect = true;
 
 import { Router, RouterState } from '@angular/router';
-import { ConfigurationDB } from '../configuration-db'
-import { ConfigurationService } from '../configuration.service'
+import { IndividualDB } from '../individual-db'
+import { IndividualService } from '../individual.service'
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -27,24 +27,24 @@ enum TableComponentMode {
 
 // generated table component
 @Component({
-  selector: 'app-configurationstable',
-  templateUrl: './configurations-table.component.html',
-  styleUrls: ['./configurations-table.component.css'],
+  selector: 'app-individualstable',
+  templateUrl: './individuals-table.component.html',
+  styleUrls: ['./individuals-table.component.css'],
 })
-export class ConfigurationsTableComponent implements OnInit {
+export class IndividualsTableComponent implements OnInit {
 
   // mode at invocation
   mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
-  // used if the component is called as a selection component of Configuration instances
-  selection: SelectionModel<ConfigurationDB> = new (SelectionModel)
-  initialSelection = new Array<ConfigurationDB>()
+  // used if the component is called as a selection component of Individual instances
+  selection: SelectionModel<IndividualDB> = new (SelectionModel)
+  initialSelection = new Array<IndividualDB>()
 
   // the data source for the table
-  configurations: ConfigurationDB[] = []
-  matTableDataSource: MatTableDataSource<ConfigurationDB> = new (MatTableDataSource)
+  individuals: IndividualDB[] = []
+  matTableDataSource: MatTableDataSource<IndividualDB> = new (MatTableDataSource)
 
-  // front repo, that will be referenced by this.configurations
+  // front repo, that will be referenced by this.individuals
   frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
@@ -60,14 +60,14 @@ export class ConfigurationsTableComponent implements OnInit {
   ngAfterViewInit() {
 
     // enable sorting on all fields (including pointers and reverse pointer)
-    this.matTableDataSource.sortingDataAccessor = (configurationDB: ConfigurationDB, property: string) => {
+    this.matTableDataSource.sortingDataAccessor = (individualDB: IndividualDB, property: string) => {
       switch (property) {
         case 'ID':
-          return configurationDB.ID
+          return individualDB.ID
 
         // insertion point for specific sorting accessor
         case 'Name':
-          return configurationDB.Name;
+          return individualDB.Name;
 
         default:
           console.assert(false, "Unknown field")
@@ -76,14 +76,14 @@ export class ConfigurationsTableComponent implements OnInit {
     };
 
     // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-    this.matTableDataSource.filterPredicate = (configurationDB: ConfigurationDB, filter: string) => {
+    this.matTableDataSource.filterPredicate = (individualDB: IndividualDB, filter: string) => {
 
       // filtering is based on finding a lower case filter into a concatenated string
-      // the configurationDB properties
+      // the individualDB properties
       let mergedContent = ""
 
       // insertion point for merging of fields
-      mergedContent += configurationDB.Name.toLowerCase()
+      mergedContent += individualDB.Name.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -99,11 +99,11 @@ export class ConfigurationsTableComponent implements OnInit {
   }
 
   constructor(
-    private configurationService: ConfigurationService,
+    private individualService: IndividualService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of configuration instances
-    public dialogRef: MatDialogRef<ConfigurationsTableComponent>,
+    // not null if the component is called as a selection component of individual instances
+    public dialogRef: MatDialogRef<IndividualsTableComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -125,10 +125,10 @@ export class ConfigurationsTableComponent implements OnInit {
     }
 
     // observable for changes in structs
-    this.configurationService.ConfigurationServiceChanged.subscribe(
+    this.individualService.IndividualServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
-          this.getConfigurations()
+          this.getIndividuals()
         }
       }
     )
@@ -140,96 +140,96 @@ export class ConfigurationsTableComponent implements OnInit {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
       ]
-      this.selection = new SelectionModel<ConfigurationDB>(allowMultiSelect, this.initialSelection);
+      this.selection = new SelectionModel<IndividualDB>(allowMultiSelect, this.initialSelection);
     }
 
   }
 
   ngOnInit(): void {
-    this.getConfigurations()
-    this.matTableDataSource = new MatTableDataSource(this.configurations)
+    this.getIndividuals()
+    this.matTableDataSource = new MatTableDataSource(this.individuals)
   }
 
-  getConfigurations(): void {
+  getIndividuals(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
-        this.configurations = this.frontRepo.Configurations_array;
+        this.individuals = this.frontRepo.Individuals_array;
 
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          for (let configuration of this.configurations) {
+          for (let individual of this.individuals) {
             let ID = this.dialogData.ID
-            let revPointer = configuration[this.dialogData.ReversePointer as keyof ConfigurationDB] as unknown as NullInt64
+            let revPointer = individual[this.dialogData.ReversePointer as keyof IndividualDB] as unknown as NullInt64
             if (revPointer.Int64 == ID) {
-              this.initialSelection.push(configuration)
+              this.initialSelection.push(individual)
             }
-            this.selection = new SelectionModel<ConfigurationDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<IndividualDB>(allowMultiSelect, this.initialSelection);
           }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, ConfigurationDB>
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, IndividualDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as ConfigurationDB[]
+          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as IndividualDB[]
           for (let associationInstance of sourceField) {
-            let configuration = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as ConfigurationDB
-            this.initialSelection.push(configuration)
+            let individual = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as IndividualDB
+            this.initialSelection.push(individual)
           }
 
-          this.selection = new SelectionModel<ConfigurationDB>(allowMultiSelect, this.initialSelection);
+          this.selection = new SelectionModel<IndividualDB>(allowMultiSelect, this.initialSelection);
         }
 
         // update the mat table data source
-        this.matTableDataSource.data = this.configurations
+        this.matTableDataSource.data = this.individuals
       }
     )
   }
 
-  // newConfiguration initiate a new configuration
-  // create a new Configuration objet
-  newConfiguration() {
+  // newIndividual initiate a new individual
+  // create a new Individual objet
+  newIndividual() {
   }
 
-  deleteConfiguration(configurationID: number, configuration: ConfigurationDB) {
-    // list of configurations is truncated of configuration before the delete
-    this.configurations = this.configurations.filter(h => h !== configuration);
+  deleteIndividual(individualID: number, individual: IndividualDB) {
+    // list of individuals is truncated of individual before the delete
+    this.individuals = this.individuals.filter(h => h !== individual);
 
-    this.configurationService.deleteConfiguration(configurationID).subscribe(
-      configuration => {
-        this.configurationService.ConfigurationServiceChanged.next("delete")
+    this.individualService.deleteIndividual(individualID).subscribe(
+      individual => {
+        this.individualService.IndividualServiceChanged.next("delete")
       }
     );
   }
 
-  editConfiguration(configurationID: number, configuration: ConfigurationDB) {
+  editIndividual(individualID: number, individual: IndividualDB) {
 
   }
 
-  // display configuration in router
-  displayConfigurationInRouter(configurationID: number) {
-    this.router.navigate(["gongtenk_go-" + "configuration-display", configurationID])
+  // display individual in router
+  displayIndividualInRouter(individualID: number) {
+    this.router.navigate(["gongtenk_go-" + "individual-display", individualID])
   }
 
   // set editor outlet
-  setEditorRouterOutlet(configurationID: number) {
+  setEditorRouterOutlet(individualID: number) {
     this.router.navigate([{
       outlets: {
-        gongtenk_go_editor: ["gongtenk_go-" + "configuration-detail", configurationID]
+        gongtenk_go_editor: ["gongtenk_go-" + "individual-detail", individualID]
       }
     }]);
   }
 
   // set presentation outlet
-  setPresentationRouterOutlet(configurationID: number) {
+  setPresentationRouterOutlet(individualID: number) {
     this.router.navigate([{
       outlets: {
-        gongtenk_go_presentation: ["gongtenk_go-" + "configuration-presentation", configurationID]
+        gongtenk_go_presentation: ["gongtenk_go-" + "individual-presentation", individualID]
       }
     }]);
   }
@@ -237,7 +237,7 @@ export class ConfigurationsTableComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.configurations.length;
+    const numRows = this.individuals.length;
     return numSelected === numRows;
   }
 
@@ -245,39 +245,39 @@ export class ConfigurationsTableComponent implements OnInit {
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.configurations.forEach(row => this.selection.select(row));
+      this.individuals.forEach(row => this.selection.select(row));
   }
 
   save() {
 
     if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-      let toUpdate = new Set<ConfigurationDB>()
+      let toUpdate = new Set<IndividualDB>()
 
-      // reset all initial selection of configuration that belong to configuration
-      for (let configuration of this.initialSelection) {
-        let index = configuration[this.dialogData.ReversePointer as keyof ConfigurationDB] as unknown as NullInt64
+      // reset all initial selection of individual that belong to individual
+      for (let individual of this.initialSelection) {
+        let index = individual[this.dialogData.ReversePointer as keyof IndividualDB] as unknown as NullInt64
         index.Int64 = 0
         index.Valid = true
-        toUpdate.add(configuration)
+        toUpdate.add(individual)
 
       }
 
-      // from selection, set configuration that belong to configuration
-      for (let configuration of this.selection.selected) {
+      // from selection, set individual that belong to individual
+      for (let individual of this.selection.selected) {
         let ID = this.dialogData.ID as number
-        let reversePointer = configuration[this.dialogData.ReversePointer as keyof ConfigurationDB] as unknown as NullInt64
+        let reversePointer = individual[this.dialogData.ReversePointer as keyof IndividualDB] as unknown as NullInt64
         reversePointer.Int64 = ID
         reversePointer.Valid = true
-        toUpdate.add(configuration)
+        toUpdate.add(individual)
       }
 
 
-      // update all configuration (only update selection & initial selection)
-      for (let configuration of toUpdate) {
-        this.configurationService.updateConfiguration(configuration)
-          .subscribe(configuration => {
-            this.configurationService.ConfigurationServiceChanged.next("update")
+      // update all individual (only update selection & initial selection)
+      for (let individual of toUpdate) {
+        this.individualService.updateIndividual(individual)
+          .subscribe(individual => {
+            this.individualService.IndividualServiceChanged.next("update")
           });
       }
     }
@@ -285,26 +285,26 @@ export class ConfigurationsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
       // get the source instance via the map of instances in the front repo
-      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, ConfigurationDB>
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, IndividualDB>
       let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
-      let unselectedConfiguration = new Set<number>()
-      for (let configuration of this.initialSelection) {
-        if (this.selection.selected.includes(configuration)) {
-          // console.log("configuration " + configuration.Name + " is still selected")
+      let unselectedIndividual = new Set<number>()
+      for (let individual of this.initialSelection) {
+        if (this.selection.selected.includes(individual)) {
+          // console.log("individual " + individual.Name + " is still selected")
         } else {
-          console.log("configuration " + configuration.Name + " has been unselected")
-          unselectedConfiguration.add(configuration.ID)
-          console.log("is unselected " + unselectedConfiguration.has(configuration.ID))
+          console.log("individual " + individual.Name + " has been unselected")
+          unselectedIndividual.add(individual.ID)
+          console.log("is unselected " + unselectedIndividual.has(individual.ID))
         }
       }
 
       // delete the association instance
       let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
-      let configuration = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as ConfigurationDB
-      if (unselectedConfiguration.has(configuration.ID)) {
+      let individual = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as IndividualDB
+      if (unselectedIndividual.has(individual.ID)) {
         this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
 
@@ -312,38 +312,38 @@ export class ConfigurationsTableComponent implements OnInit {
 
       // is the source array is empty create it
       if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
-        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<ConfigurationDB>) = new Array<ConfigurationDB>()
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<IndividualDB>) = new Array<IndividualDB>()
       }
 
       // second, parse all instance of the selected
       if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
-          configuration => {
-            if (!this.initialSelection.includes(configuration)) {
-              // console.log("configuration " + configuration.Name + " has been added to the selection")
+          individual => {
+            if (!this.initialSelection.includes(individual)) {
+              // console.log("individual " + individual.Name + " has been added to the selection")
 
               let associationInstance = {
-                Name: sourceInstance["Name"] + "-" + configuration.Name,
+                Name: sourceInstance["Name"] + "-" + individual.Name,
               }
 
               let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
-              index.Int64 = configuration.ID
+              index.Int64 = individual.ID
               index.Valid = true
 
               let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
-              indexDB.Int64 = configuration.ID
+              indexDB.Int64 = individual.ID
               index.Valid = true
 
               this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
-              // console.log("configuration " + configuration.Name + " is still selected")
+              // console.log("individual " + individual.Name + " is still selected")
             }
           }
         )
       }
 
-      // this.selection = new SelectionModel<ConfigurationDB>(allowMultiSelect, this.initialSelection);
+      // this.selection = new SelectionModel<IndividualDB>(allowMultiSelect, this.initialSelection);
     }
 
     // why pizza ?

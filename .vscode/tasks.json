@@ -11,23 +11,6 @@
       "args": [
         "run",
         "main.go",
-        "-diagrams",
-        // "-logGIN",
-        // "-noEmbed"
-      ],
-      "group": "build"
-    },
-    {
-      "label": "02 - run gongtenk w/o diagrams",
-      "type": "shell",
-      "options": {
-        "cwd": "${workspaceFolder}/go/cmd/gongtenk"
-      },
-      "command": "go",
-      "args": [
-        "run",
-        "main.go",
-        "-diagrams=false"
       ],
       "group": "build"
     },

@@ -1,38 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { ConfigurationDB } from '../configuration-db'
-import { ConfigurationService } from '../configuration.service'
+import { IndividualDB } from '../individual-db'
+import { IndividualService } from '../individual.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
-export interface configurationDummyElement {
+export interface individualDummyElement {
 }
 
-const ELEMENT_DATA: configurationDummyElement[] = [
+const ELEMENT_DATA: individualDummyElement[] = [
 ];
 
 @Component({
-	selector: 'app-configuration-presentation',
-	templateUrl: './configuration-presentation.component.html',
-	styleUrls: ['./configuration-presentation.component.css'],
+	selector: 'app-individual-presentation',
+	templateUrl: './individual-presentation.component.html',
+	styleUrls: ['./individual-presentation.component.css'],
 })
-export class ConfigurationPresentationComponent implements OnInit {
+export class IndividualPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
 
-	configuration: ConfigurationDB = new (ConfigurationDB)
+	individual: IndividualDB = new (IndividualDB)
 
 	// front repo
 	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
-		private configurationService: ConfigurationService,
+		private individualService: IndividualService,
 		private frontRepoService: FrontRepoService,
 		private route: ActivatedRoute,
 		private router: Router,
@@ -43,25 +43,25 @@ export class ConfigurationPresentationComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.getConfiguration();
+		this.getIndividual();
 
 		// observable for changes in 
-		this.configurationService.ConfigurationServiceChanged.subscribe(
+		this.individualService.IndividualServiceChanged.subscribe(
 			message => {
 				if (message == "update") {
-					this.getConfiguration()
+					this.getIndividual()
 				}
 			}
 		)
 	}
 
-	getConfiguration(): void {
+	getIndividual(): void {
 		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.configuration = this.frontRepo.Configurations.get(id)!
+				this.individual = this.frontRepo.Individuals.get(id)!
 
 				// insertion point for recovery of durations
 			}
@@ -81,7 +81,7 @@ export class ConfigurationPresentationComponent implements OnInit {
 	setEditorRouterOutlet(ID: number) {
 		this.router.navigate([{
 			outlets: {
-				gongtenk_go_editor: ["gongtenk_go-" + "configuration-detail", ID]
+				gongtenk_go_editor: ["gongtenk_go-" + "individual-detail", ID]
 			}
 		}]);
 	}

@@ -12,8 +12,8 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Configurations           map[*Configuration]struct{}
-	Configurations_mapString map[string]*Configuration
+	Individuals           map[*Individual]struct{}
+	Individuals_mapString map[string]*Individual
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -37,16 +37,16 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitConfiguration(configuration *Configuration)
-	CheckoutConfiguration(configuration *Configuration)
+	CommitIndividual(individual *Individual)
+	CheckoutIndividual(individual *Individual)
 	GetLastCommitNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Configurations:           make(map[*Configuration]struct{}),
-	Configurations_mapString: make(map[string]*Configuration),
+	Individuals:           make(map[*Individual]struct{}),
+	Individuals_mapString: make(map[string]*Individual),
 
 	// end of insertion point
 }
@@ -92,125 +92,125 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-func (stage *StageStruct) getConfigurationOrderedStructWithNameField() []*Configuration {
+func (stage *StageStruct) getIndividualOrderedStructWithNameField() []*Individual {
 	// have alphabetical order generation
-	configurationOrdered := []*Configuration{}
-	for configuration := range stage.Configurations {
-		configurationOrdered = append(configurationOrdered, configuration)
+	individualOrdered := []*Individual{}
+	for individual := range stage.Individuals {
+		individualOrdered = append(individualOrdered, individual)
 	}
-	sort.Slice(configurationOrdered[:], func(i, j int) bool {
-		return configurationOrdered[i].Name < configurationOrdered[j].Name
+	sort.Slice(individualOrdered[:], func(i, j int) bool {
+		return individualOrdered[i].Name < individualOrdered[j].Name
 	})
-	return configurationOrdered
+	return individualOrdered
 }
 
-// Stage puts configuration to the model stage
-func (configuration *Configuration) Stage() *Configuration {
-	Stage.Configurations[configuration] = __member
-	Stage.Configurations_mapString[configuration.Name] = configuration
+// Stage puts individual to the model stage
+func (individual *Individual) Stage() *Individual {
+	Stage.Individuals[individual] = __member
+	Stage.Individuals_mapString[individual.Name] = individual
 
-	return configuration
+	return individual
 }
 
-// Unstage removes configuration off the model stage
-func (configuration *Configuration) Unstage() *Configuration {
-	delete(Stage.Configurations, configuration)
-	delete(Stage.Configurations_mapString, configuration.Name)
-	return configuration
+// Unstage removes individual off the model stage
+func (individual *Individual) Unstage() *Individual {
+	delete(Stage.Individuals, individual)
+	delete(Stage.Individuals_mapString, individual.Name)
+	return individual
 }
 
-// commit configuration to the back repo (if it is already staged)
-func (configuration *Configuration) Commit() *Configuration {
-	if _, ok := Stage.Configurations[configuration]; ok {
+// commit individual to the back repo (if it is already staged)
+func (individual *Individual) Commit() *Individual {
+	if _, ok := Stage.Individuals[individual]; ok {
 		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitConfiguration(configuration)
+			Stage.BackRepo.CommitIndividual(individual)
 		}
 	}
-	return configuration
+	return individual
 }
 
-// Checkout configuration to the back repo (if it is already staged)
-func (configuration *Configuration) Checkout() *Configuration {
-	if _, ok := Stage.Configurations[configuration]; ok {
+// Checkout individual to the back repo (if it is already staged)
+func (individual *Individual) Checkout() *Individual {
+	if _, ok := Stage.Individuals[individual]; ok {
 		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutConfiguration(configuration)
+			Stage.BackRepo.CheckoutIndividual(individual)
 		}
 	}
-	return configuration
+	return individual
 }
 
 //
 // Legacy, to be deleted
 //
 
-// StageCopy appends a copy of configuration to the model stage
-func (configuration *Configuration) StageCopy() *Configuration {
-	_configuration := new(Configuration)
-	*_configuration = *configuration
-	_configuration.Stage()
-	return _configuration
+// StageCopy appends a copy of individual to the model stage
+func (individual *Individual) StageCopy() *Individual {
+	_individual := new(Individual)
+	*_individual = *individual
+	_individual.Stage()
+	return _individual
 }
 
-// StageAndCommit appends configuration to the model stage and commit to the orm repo
-func (configuration *Configuration) StageAndCommit() *Configuration {
-	configuration.Stage()
+// StageAndCommit appends individual to the model stage and commit to the orm repo
+func (individual *Individual) StageAndCommit() *Individual {
+	individual.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMConfiguration(configuration)
+		Stage.AllModelsStructCreateCallback.CreateORMIndividual(individual)
 	}
-	return configuration
+	return individual
 }
 
-// DeleteStageAndCommit appends configuration to the model stage and commit to the orm repo
-func (configuration *Configuration) DeleteStageAndCommit() *Configuration {
-	configuration.Unstage()
-	DeleteORMConfiguration(configuration)
-	return configuration
+// DeleteStageAndCommit appends individual to the model stage and commit to the orm repo
+func (individual *Individual) DeleteStageAndCommit() *Individual {
+	individual.Unstage()
+	DeleteORMIndividual(individual)
+	return individual
 }
 
-// StageCopyAndCommit appends a copy of configuration to the model stage and commit to the orm repo
-func (configuration *Configuration) StageCopyAndCommit() *Configuration {
-	_configuration := new(Configuration)
-	*_configuration = *configuration
-	_configuration.Stage()
+// StageCopyAndCommit appends a copy of individual to the model stage and commit to the orm repo
+func (individual *Individual) StageCopyAndCommit() *Individual {
+	_individual := new(Individual)
+	*_individual = *individual
+	_individual.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMConfiguration(configuration)
+		Stage.AllModelsStructCreateCallback.CreateORMIndividual(individual)
 	}
-	return _configuration
+	return _individual
 }
 
-// CreateORMConfiguration enables dynamic staging of a Configuration instance
-func CreateORMConfiguration(configuration *Configuration) {
-	configuration.Stage()
+// CreateORMIndividual enables dynamic staging of a Individual instance
+func CreateORMIndividual(individual *Individual) {
+	individual.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMConfiguration(configuration)
+		Stage.AllModelsStructCreateCallback.CreateORMIndividual(individual)
 	}
 }
 
-// DeleteORMConfiguration enables dynamic staging of a Configuration instance
-func DeleteORMConfiguration(configuration *Configuration) {
-	configuration.Unstage()
+// DeleteORMIndividual enables dynamic staging of a Individual instance
+func DeleteORMIndividual(individual *Individual) {
+	individual.Unstage()
 	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMConfiguration(configuration)
+		Stage.AllModelsStructDeleteCallback.DeleteORMIndividual(individual)
 	}
 }
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMConfiguration(Configuration *Configuration)
+	CreateORMIndividual(Individual *Individual)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMConfiguration(Configuration *Configuration)
+	DeleteORMIndividual(Individual *Individual)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Configurations = make(map[*Configuration]struct{})
-	stage.Configurations_mapString = make(map[string]*Configuration)
+	stage.Individuals = make(map[*Individual]struct{})
+	stage.Individuals_mapString = make(map[string]*Individual)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
-	stage.Configurations = nil
-	stage.Configurations_mapString = nil
+	stage.Individuals = nil
+	stage.Individuals_mapString = nil
 
 }

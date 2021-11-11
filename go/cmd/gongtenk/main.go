@@ -23,6 +23,8 @@ import (
 	_ "github.com/fullstack-lang/gongleaflet/ng"
 
 	gongtenk "gongtenk"
+	_ "gongtenk/go/icons"
+	_ "gongtenk/go/visuals"
 )
 
 var (
@@ -48,7 +50,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db := orm.SetupModels(*logDBFlag, "./test.db")
+	db := orm.SetupModels(*logDBFlag, ":memory:")
 	dbDB, err := db.DB()
 
 	// since the stack can be a multi threaded application. It is important to set up

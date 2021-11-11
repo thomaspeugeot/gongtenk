@@ -8,30 +8,30 @@ import { DialogData } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { Router, RouterState } from '@angular/router';
-import { ConfigurationDB } from '../configuration-db'
-import { ConfigurationService } from '../configuration.service'
+import { IndividualDB } from '../individual-db'
+import { IndividualService } from '../individual.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { NullInt64 } from '../null-int64'
 
 @Component({
-  selector: 'lib-configuration-sorting',
-  templateUrl: './configuration-sorting.component.html',
-  styleUrls: ['./configuration-sorting.component.css']
+  selector: 'lib-individual-sorting',
+  templateUrl: './individual-sorting.component.html',
+  styleUrls: ['./individual-sorting.component.css']
 })
-export class ConfigurationSortingComponent implements OnInit {
+export class IndividualSortingComponent implements OnInit {
 
   frontRepo: FrontRepo = new (FrontRepo)
 
-  // array of Configuration instances that are in the association
-  associatedConfigurations = new Array<ConfigurationDB>();
+  // array of Individual instances that are in the association
+  associatedIndividuals = new Array<IndividualDB>();
 
   constructor(
-    private configurationService: ConfigurationService,
+    private individualService: IndividualService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of configuration instances
-    public dialogRef: MatDialogRef<ConfigurationSortingComponent>,
+    // not null if the component is called as a selection component of individual instances
+    public dialogRef: MatDialogRef<IndividualSortingComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -42,31 +42,31 @@ export class ConfigurationSortingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getConfigurations()
+    this.getIndividuals()
   }
 
-  getConfigurations(): void {
+  getIndividuals(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
         let index = 0
-        for (let configuration of this.frontRepo.Configurations_array) {
+        for (let individual of this.frontRepo.Individuals_array) {
           let ID = this.dialogData.ID
-          let revPointerID = configuration[this.dialogData.ReversePointer as keyof ConfigurationDB] as unknown as NullInt64
-          let revPointerID_Index = configuration[this.dialogData.ReversePointer + "_Index" as keyof ConfigurationDB] as unknown as NullInt64
+          let revPointerID = individual[this.dialogData.ReversePointer as keyof IndividualDB] as unknown as NullInt64
+          let revPointerID_Index = individual[this.dialogData.ReversePointer + "_Index" as keyof IndividualDB] as unknown as NullInt64
           if (revPointerID.Int64 == ID) {
             if (revPointerID_Index == undefined) {
               revPointerID_Index = new NullInt64
               revPointerID_Index.Valid = true
               revPointerID_Index.Int64 = index++
             }
-            this.associatedConfigurations.push(configuration)
+            this.associatedIndividuals.push(individual)
           }
         }
 
-        // sort associated configuration according to order
-        this.associatedConfigurations.sort((t1, t2) => {
+        // sort associated individual according to order
+        this.associatedIndividuals.sort((t1, t2) => {
           let t1_revPointerID_Index = t1[this.dialogData.ReversePointer + "_Index" as keyof typeof t1] as unknown as NullInt64
           let t2_revPointerID_Index = t2[this.dialogData.ReversePointer + "_Index" as keyof typeof t2] as unknown as NullInt64
           if (t1_revPointerID_Index && t2_revPointerID_Index) {
@@ -84,13 +84,13 @@ export class ConfigurationSortingComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.associatedConfigurations, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.associatedIndividuals, event.previousIndex, event.currentIndex);
 
-    // set the order of Configuration instances
+    // set the order of Individual instances
     let index = 0
 
-    for (let configuration of this.associatedConfigurations) {
-      let revPointerID_Index = configuration[this.dialogData.ReversePointer + "_Index" as keyof ConfigurationDB] as unknown as NullInt64
+    for (let individual of this.associatedIndividuals) {
+      let revPointerID_Index = individual[this.dialogData.ReversePointer + "_Index" as keyof IndividualDB] as unknown as NullInt64
       revPointerID_Index.Valid = true
       revPointerID_Index.Int64 = index++
     }
@@ -98,11 +98,11 @@ export class ConfigurationSortingComponent implements OnInit {
 
   save() {
 
-    this.associatedConfigurations.forEach(
-      configuration => {
-        this.configurationService.updateConfiguration(configuration)
-          .subscribe(configuration => {
-            this.configurationService.ConfigurationServiceChanged.next("update")
+    this.associatedIndividuals.forEach(
+      individual => {
+        this.individualService.updateIndividual(individual)
+          .subscribe(individual => {
+            this.individualService.IndividualServiceChanged.next("update")
           });
       }
     )

@@ -4,15 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 
 // insertion point sub template for services imports 
-import { ConfigurationDB } from './configuration-db'
-import { ConfigurationService } from './configuration.service'
+import { IndividualDB } from './individual-db'
+import { IndividualService } from './individual.service'
 
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  Configurations_array = new Array<ConfigurationDB>(); // array of repo instances
-  Configurations = new Map<number, ConfigurationDB>(); // map of repo instances
-  Configurations_batch = new Map<number, ConfigurationDB>(); // same but only in last GET (for finding repo instances to delete)
+  Individuals_array = new Array<IndividualDB>(); // array of repo instances
+  Individuals = new Map<number, IndividualDB>(); // map of repo instances
+  Individuals_batch = new Map<number, IndividualDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
 //
@@ -71,7 +71,7 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
-    private configurationService: ConfigurationService,
+    private individualService: IndividualService,
   ) { }
 
   // postService provides a post function for each struct name
@@ -102,9 +102,9 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
-    Observable<ConfigurationDB[]>,
+    Observable<IndividualDB[]>,
   ] = [ // insertion point sub template 
-      this.configurationService.getConfigurations(),
+      this.individualService.getIndividuals(),
     ];
 
   //
@@ -120,40 +120,40 @@ export class FrontRepoService {
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
-            configurations_,
+            individuals_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
-            var configurations: ConfigurationDB[]
-            configurations = configurations_ as ConfigurationDB[]
+            var individuals: IndividualDB[]
+            individuals = individuals_ as IndividualDB[]
 
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
             // init the array
-            FrontRepoSingloton.Configurations_array = configurations
+            FrontRepoSingloton.Individuals_array = individuals
 
-            // clear the map that counts Configuration in the GET
-            FrontRepoSingloton.Configurations_batch.clear()
+            // clear the map that counts Individual in the GET
+            FrontRepoSingloton.Individuals_batch.clear()
 
-            configurations.forEach(
-              configuration => {
-                FrontRepoSingloton.Configurations.set(configuration.ID, configuration)
-                FrontRepoSingloton.Configurations_batch.set(configuration.ID, configuration)
+            individuals.forEach(
+              individual => {
+                FrontRepoSingloton.Individuals.set(individual.ID, individual)
+                FrontRepoSingloton.Individuals_batch.set(individual.ID, individual)
               }
             )
 
-            // clear configurations that are absent from the batch
-            FrontRepoSingloton.Configurations.forEach(
-              configuration => {
-                if (FrontRepoSingloton.Configurations_batch.get(configuration.ID) == undefined) {
-                  FrontRepoSingloton.Configurations.delete(configuration.ID)
+            // clear individuals that are absent from the batch
+            FrontRepoSingloton.Individuals.forEach(
+              individual => {
+                if (FrontRepoSingloton.Individuals_batch.get(individual.ID) == undefined) {
+                  FrontRepoSingloton.Individuals.delete(individual.ID)
                 }
               }
             )
 
-            // sort Configurations_array array
-            FrontRepoSingloton.Configurations_array.sort((t1, t2) => {
+            // sort Individuals_array array
+            FrontRepoSingloton.Individuals_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -167,8 +167,8 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
-            configurations.forEach(
-              configuration => {
+            individuals.forEach(
+              individual => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
@@ -185,29 +185,29 @@ export class FrontRepoService {
 
   // insertion point for pull per struct 
 
-  // ConfigurationPull performs a GET on Configuration of the stack and redeem association pointers 
-  ConfigurationPull(): Observable<FrontRepo> {
+  // IndividualPull performs a GET on Individual of the stack and redeem association pointers 
+  IndividualPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.configurationService.getConfigurations()
+          this.individualService.getIndividuals()
         ]).subscribe(
           ([ // insertion point sub template 
-            configurations,
+            individuals,
           ]) => {
             // init the array
-            FrontRepoSingloton.Configurations_array = configurations
+            FrontRepoSingloton.Individuals_array = individuals
 
-            // clear the map that counts Configuration in the GET
-            FrontRepoSingloton.Configurations_batch.clear()
+            // clear the map that counts Individual in the GET
+            FrontRepoSingloton.Individuals_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
-            configurations.forEach(
-              configuration => {
-                FrontRepoSingloton.Configurations.set(configuration.ID, configuration)
-                FrontRepoSingloton.Configurations_batch.set(configuration.ID, configuration)
+            individuals.forEach(
+              individual => {
+                FrontRepoSingloton.Individuals.set(individual.ID, individual)
+                FrontRepoSingloton.Individuals_batch.set(individual.ID, individual)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
@@ -215,11 +215,11 @@ export class FrontRepoService {
               }
             )
 
-            // clear configurations that are absent from the GET
-            FrontRepoSingloton.Configurations.forEach(
-              configuration => {
-                if (FrontRepoSingloton.Configurations_batch.get(configuration.ID) == undefined) {
-                  FrontRepoSingloton.Configurations.delete(configuration.ID)
+            // clear individuals that are absent from the GET
+            FrontRepoSingloton.Individuals.forEach(
+              individual => {
+                if (FrontRepoSingloton.Individuals_batch.get(individual.ID) == undefined) {
+                  FrontRepoSingloton.Individuals.delete(individual.ID)
                 }
               }
             )
@@ -238,6 +238,6 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getConfigurationUniqueID(id: number): number {
+export function getIndividualUniqueID(id: number): number {
   return 31 * id
 }

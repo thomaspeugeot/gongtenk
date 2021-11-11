@@ -11,14 +11,14 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { ConfigurationDB } from './configuration-db';
+import { IndividualDB } from './individual-db';
 
 // insertion point for imports
 
 @Injectable({
   providedIn: 'root'
 })
-export class ConfigurationService {
+export class IndividualService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,9 +26,9 @@ export class ConfigurationService {
 
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
-  ConfigurationServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
+  IndividualServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private configurationsUrl: string
+  private individualsUrl: string
 
   constructor(
     private http: HttpClient,
@@ -43,67 +43,67 @@ export class ConfigurationService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.configurationsUrl = origin + '/api/gongtenk/go/v1/configurations';
+    this.individualsUrl = origin + '/api/gongtenk/go/v1/individuals';
   }
 
-  /** GET configurations from the server */
-  getConfigurations(): Observable<ConfigurationDB[]> {
-    return this.http.get<ConfigurationDB[]>(this.configurationsUrl)
+  /** GET individuals from the server */
+  getIndividuals(): Observable<IndividualDB[]> {
+    return this.http.get<IndividualDB[]>(this.individualsUrl)
       .pipe(
-        tap(_ => this.log('fetched configurations')),
-        catchError(this.handleError<ConfigurationDB[]>('getConfigurations', []))
+        tap(_ => this.log('fetched individuals')),
+        catchError(this.handleError<IndividualDB[]>('getIndividuals', []))
       );
   }
 
-  /** GET configuration by id. Will 404 if id not found */
-  getConfiguration(id: number): Observable<ConfigurationDB> {
-    const url = `${this.configurationsUrl}/${id}`;
-    return this.http.get<ConfigurationDB>(url).pipe(
-      tap(_ => this.log(`fetched configuration id=${id}`)),
-      catchError(this.handleError<ConfigurationDB>(`getConfiguration id=${id}`))
+  /** GET individual by id. Will 404 if id not found */
+  getIndividual(id: number): Observable<IndividualDB> {
+    const url = `${this.individualsUrl}/${id}`;
+    return this.http.get<IndividualDB>(url).pipe(
+      tap(_ => this.log(`fetched individual id=${id}`)),
+      catchError(this.handleError<IndividualDB>(`getIndividual id=${id}`))
     );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new configuration to the server */
-  postConfiguration(configurationdb: ConfigurationDB): Observable<ConfigurationDB> {
+  /** POST: add a new individual to the server */
+  postIndividual(individualdb: IndividualDB): Observable<IndividualDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.post<ConfigurationDB>(this.configurationsUrl, configurationdb, this.httpOptions).pipe(
+    return this.http.post<IndividualDB>(this.individualsUrl, individualdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted configurationdb id=${configurationdb.ID}`)
+        this.log(`posted individualdb id=${individualdb.ID}`)
       }),
-      catchError(this.handleError<ConfigurationDB>('postConfiguration'))
+      catchError(this.handleError<IndividualDB>('postIndividual'))
     );
   }
 
-  /** DELETE: delete the configurationdb from the server */
-  deleteConfiguration(configurationdb: ConfigurationDB | number): Observable<ConfigurationDB> {
-    const id = typeof configurationdb === 'number' ? configurationdb : configurationdb.ID;
-    const url = `${this.configurationsUrl}/${id}`;
+  /** DELETE: delete the individualdb from the server */
+  deleteIndividual(individualdb: IndividualDB | number): Observable<IndividualDB> {
+    const id = typeof individualdb === 'number' ? individualdb : individualdb.ID;
+    const url = `${this.individualsUrl}/${id}`;
 
-    return this.http.delete<ConfigurationDB>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted configurationdb id=${id}`)),
-      catchError(this.handleError<ConfigurationDB>('deleteConfiguration'))
+    return this.http.delete<IndividualDB>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted individualdb id=${id}`)),
+      catchError(this.handleError<IndividualDB>('deleteIndividual'))
     );
   }
 
-  /** PUT: update the configurationdb on the server */
-  updateConfiguration(configurationdb: ConfigurationDB): Observable<ConfigurationDB> {
-    const id = typeof configurationdb === 'number' ? configurationdb : configurationdb.ID;
-    const url = `${this.configurationsUrl}/${id}`;
+  /** PUT: update the individualdb on the server */
+  updateIndividual(individualdb: IndividualDB): Observable<IndividualDB> {
+    const id = typeof individualdb === 'number' ? individualdb : individualdb.ID;
+    const url = `${this.individualsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put<ConfigurationDB>(url, configurationdb, this.httpOptions).pipe(
+    return this.http.put<IndividualDB>(url, individualdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated configurationdb id=${configurationdb.ID}`)
+        this.log(`updated individualdb id=${individualdb.ID}`)
       }),
-      catchError(this.handleError<ConfigurationDB>('updateConfiguration'))
+      catchError(this.handleError<IndividualDB>('updateIndividual'))
     );
   }
 

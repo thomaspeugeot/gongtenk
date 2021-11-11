@@ -2,6 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "pwa-chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/ng"
+        },
+        {
             "name": "Cloud Run: Run/Debug Locally",
             "type": "cloudcode.cloudrun",
             "request": "launch",
@@ -36,10 +43,6 @@
             "webRoot": "${workspaceFolder}/ng",
             "pathMappings": [
                 {
-                    "url": "webpack:///gongleaflet",
-                    "path": "/Users/thomaspeugeot/go/src/github.com/fullstack-lang/gongleaflet"
-                },
-                {
                     "url": "webpack:///projects",
                     "path": "${workspaceFolder}/ng/projects"
                 }
@@ -53,10 +56,6 @@
             "url": "http://localhost:8080/",
             "webRoot": "${workspaceFolder}/ng",
             "pathMappings": [
-                {
-                    "url": "webpack:///gongleaflet",
-                    "path": "/Users/thomaspeugeot/go/src/github.com/fullstack-lang/gongleaflet"
-                },
                 {
                     "url": "webpack:///projects",
                     "path": "${workspaceFolder}/ng/projects"

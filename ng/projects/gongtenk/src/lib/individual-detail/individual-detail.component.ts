@@ -2,8 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { ConfigurationDB } from '../configuration-db'
-import { ConfigurationService } from '../configuration.service'
+import { IndividualDB } from '../individual-db'
+import { IndividualService } from '../individual.service'
 
 import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
@@ -17,25 +17,25 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../null-int64'
 
-// ConfigurationDetailComponent is initilizaed from different routes
-// ConfigurationDetailComponentState detail different cases 
-enum ConfigurationDetailComponentState {
+// IndividualDetailComponent is initilizaed from different routes
+// IndividualDetailComponentState detail different cases 
+enum IndividualDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
 }
 
 @Component({
-	selector: 'app-configuration-detail',
-	templateUrl: './configuration-detail.component.html',
-	styleUrls: ['./configuration-detail.component.css'],
+	selector: 'app-individual-detail',
+	templateUrl: './individual-detail.component.html',
+	styleUrls: ['./individual-detail.component.css'],
 })
-export class ConfigurationDetailComponent implements OnInit {
+export class IndividualDetailComponent implements OnInit {
 
 	// insertion point for declarations
 
-	// the ConfigurationDB of interest
-	configuration: ConfigurationDB = new ConfigurationDB
+	// the IndividualDB of interest
+	individual: IndividualDB = new IndividualDB
 
 	// front repo
 	frontRepo: FrontRepo = new FrontRepo
@@ -46,7 +46,7 @@ export class ConfigurationDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: ConfigurationDetailComponentState = ConfigurationDetailComponentState.CREATE_INSTANCE
+	state: IndividualDetailComponentState = IndividualDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
@@ -57,7 +57,7 @@ export class ConfigurationDetailComponent implements OnInit {
 	originStructFieldName: string = ""
 
 	constructor(
-		private configurationService: ConfigurationService,
+		private individualService: IndividualService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
 		private route: ActivatedRoute,
@@ -74,10 +74,10 @@ export class ConfigurationDetailComponent implements OnInit {
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
-			this.state = ConfigurationDetailComponentState.CREATE_INSTANCE
+			this.state = IndividualDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state = ConfigurationDetailComponentState.UPDATE_INSTANCE
+				this.state = IndividualDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
@@ -87,13 +87,13 @@ export class ConfigurationDetailComponent implements OnInit {
 			}
 		}
 
-		this.getConfiguration()
+		this.getIndividual()
 
 		// observable for changes in structs
-		this.configurationService.ConfigurationServiceChanged.subscribe(
+		this.individualService.IndividualServiceChanged.subscribe(
 			message => {
 				if (message == "post" || message == "update" || message == "delete") {
-					this.getConfiguration()
+					this.getIndividual()
 				}
 			}
 		)
@@ -101,20 +101,20 @@ export class ConfigurationDetailComponent implements OnInit {
 		// insertion point for initialisation of enums list
 	}
 
-	getConfiguration(): void {
+	getIndividual(): void {
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
 				switch (this.state) {
-					case ConfigurationDetailComponentState.CREATE_INSTANCE:
-						this.configuration = new (ConfigurationDB)
+					case IndividualDetailComponentState.CREATE_INSTANCE:
+						this.individual = new (IndividualDB)
 						break;
-					case ConfigurationDetailComponentState.UPDATE_INSTANCE:
-						let configuration = frontRepo.Configurations.get(this.id)
-						console.assert(configuration != undefined, "missing configuration with id:" + this.id)
-						this.configuration = configuration!
+					case IndividualDetailComponentState.UPDATE_INSTANCE:
+						let individual = frontRepo.Individuals.get(this.id)
+						console.assert(individual != undefined, "missing individual with id:" + this.id)
+						this.individual = individual!
 						break;
 					// insertion point for init of association field
 					default:
@@ -140,16 +140,16 @@ export class ConfigurationDetailComponent implements OnInit {
 		// insertion point for translation/nullation of each pointers
 
 		switch (this.state) {
-			case ConfigurationDetailComponentState.UPDATE_INSTANCE:
-				this.configurationService.updateConfiguration(this.configuration)
-					.subscribe(configuration => {
-						this.configurationService.ConfigurationServiceChanged.next("update")
+			case IndividualDetailComponentState.UPDATE_INSTANCE:
+				this.individualService.updateIndividual(this.individual)
+					.subscribe(individual => {
+						this.individualService.IndividualServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.configurationService.postConfiguration(this.configuration).subscribe(configuration => {
-					this.configurationService.ConfigurationServiceChanged.next("post")
-					this.configuration = new (ConfigurationDB) // reset fields
+				this.individualService.postIndividual(this.individual).subscribe(individual => {
+					this.individualService.IndividualServiceChanged.next("post")
+					this.individual = new (IndividualDB) // reset fields
 				});
 		}
 	}
@@ -172,7 +172,7 @@ export class ConfigurationDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.configuration.ID!
+			dialogData.ID = this.individual.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -188,13 +188,13 @@ export class ConfigurationDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.configuration.ID!
+			dialogData.ID = this.individual.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
 
 			// set up the source
-			dialogData.SourceStruct = "Configuration"
+			dialogData.SourceStruct = "Individual"
 			dialogData.SourceField = sourceField
 
 			// set up the intermediate struct
@@ -224,7 +224,7 @@ export class ConfigurationDetailComponent implements OnInit {
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.data = {
-			ID: this.configuration.ID,
+			ID: this.individual.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
 		};
@@ -240,8 +240,8 @@ export class ConfigurationDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.configuration.Name == undefined) {
-			this.configuration.Name = event.value.Name
+		if (this.individual.Name == undefined) {
+			this.individual.Name = event.value.Name
 		}
 	}
 

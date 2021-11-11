@@ -38,19 +38,19 @@ import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
-import { ConfigurationsTableComponent } from './configurations-table/configurations-table.component'
-import { ConfigurationSortingComponent } from './configuration-sorting/configuration-sorting.component'
-import { ConfigurationDetailComponent } from './configuration-detail/configuration-detail.component'
-import { ConfigurationPresentationComponent } from './configuration-presentation/configuration-presentation.component'
+import { IndividualsTableComponent } from './individuals-table/individuals-table.component'
+import { IndividualSortingComponent } from './individual-sorting/individual-sorting.component'
+import { IndividualDetailComponent } from './individual-detail/individual-detail.component'
+import { IndividualPresentationComponent } from './individual-presentation/individual-presentation.component'
 
 
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
-		ConfigurationsTableComponent,
-		ConfigurationSortingComponent,
-		ConfigurationDetailComponent,
-		ConfigurationPresentationComponent,
+		IndividualsTableComponent,
+		IndividualSortingComponent,
+		IndividualDetailComponent,
+		IndividualPresentationComponent,
 
 
 		SplitterComponent,
@@ -91,10 +91,10 @@ import { ConfigurationPresentationComponent } from './configuration-presentation
 	],
 	exports: [
 		// insertion point for declarations 
-		ConfigurationsTableComponent,
-		ConfigurationSortingComponent,
-		ConfigurationDetailComponent,
-		ConfigurationPresentationComponent,
+		IndividualsTableComponent,
+		IndividualSortingComponent,
+		IndividualDetailComponent,
+		IndividualPresentationComponent,
 
 
 		SplitterComponent,
