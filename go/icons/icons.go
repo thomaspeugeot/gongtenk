@@ -48,6 +48,13 @@ var DotBlur *gongleaflet_models.DivIcon = (&gongleaflet_models.DivIcon{
 	SVG:  dot_blur,
 }).StageCopy()
 
+//go:embed dot.svg
+var dot string
+var Dot *gongleaflet_models.DivIcon = (&gongleaflet_models.DivIcon{
+	Name: "Dot",
+	SVG:  dot,
+}).StageCopy()
+
 //go:embed radar.svg
 var radar string
 var Radar *gongleaflet_models.DivIcon = (&gongleaflet_models.DivIcon{
