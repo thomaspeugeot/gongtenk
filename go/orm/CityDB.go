@@ -71,6 +71,12 @@ type CityDB struct {
 	// Declation for basic field cityDB.Lng {{BasicKind}} (to be completed)
 	Lng_Data sql.NullFloat64
 
+	// Declation for basic field cityDB.TwinLat {{BasicKind}} (to be completed)
+	TwinLat_Data sql.NullFloat64
+
+	// Declation for basic field cityDB.TwinLng {{BasicKind}} (to be completed)
+	TwinLng_Data sql.NullFloat64
+
 	// Declation for basic field cityDB.Population {{BasicKind}} (to be completed)
 	Population_Data sql.NullInt64
 	// encoding of pointers
@@ -100,7 +106,11 @@ type CityWOP struct {
 
 	Lng float64 `xlsx:"3"`
 
-	Population int `xlsx:"4"`
+	TwinLat float64 `xlsx:"4"`
+
+	TwinLng float64 `xlsx:"5"`
+
+	Population int `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -110,6 +120,8 @@ var City_Fields = []string{
 	"Name",
 	"Lat",
 	"Lng",
+	"TwinLat",
+	"TwinLng",
 	"Population",
 }
 
@@ -414,6 +426,12 @@ func (cityDB *CityDB) CopyBasicFieldsFromCity(city *models.City) {
 	cityDB.Lng_Data.Float64 = city.Lng
 	cityDB.Lng_Data.Valid = true
 
+	cityDB.TwinLat_Data.Float64 = city.TwinLat
+	cityDB.TwinLat_Data.Valid = true
+
+	cityDB.TwinLng_Data.Float64 = city.TwinLng
+	cityDB.TwinLng_Data.Valid = true
+
 	cityDB.Population_Data.Int64 = int64(city.Population)
 	cityDB.Population_Data.Valid = true
 }
@@ -431,6 +449,12 @@ func (cityDB *CityDB) CopyBasicFieldsFromCityWOP(city *CityWOP) {
 	cityDB.Lng_Data.Float64 = city.Lng
 	cityDB.Lng_Data.Valid = true
 
+	cityDB.TwinLat_Data.Float64 = city.TwinLat
+	cityDB.TwinLat_Data.Valid = true
+
+	cityDB.TwinLng_Data.Float64 = city.TwinLng
+	cityDB.TwinLng_Data.Valid = true
+
 	cityDB.Population_Data.Int64 = int64(city.Population)
 	cityDB.Population_Data.Valid = true
 }
@@ -441,6 +465,8 @@ func (cityDB *CityDB) CopyBasicFieldsToCity(city *models.City) {
 	city.Name = cityDB.Name_Data.String
 	city.Lat = cityDB.Lat_Data.Float64
 	city.Lng = cityDB.Lng_Data.Float64
+	city.TwinLat = cityDB.TwinLat_Data.Float64
+	city.TwinLng = cityDB.TwinLng_Data.Float64
 	city.Population = int(cityDB.Population_Data.Int64)
 }
 
@@ -451,6 +477,8 @@ func (cityDB *CityDB) CopyBasicFieldsToCityWOP(city *CityWOP) {
 	city.Name = cityDB.Name_Data.String
 	city.Lat = cityDB.Lat_Data.Float64
 	city.Lng = cityDB.Lng_Data.Float64
+	city.TwinLat = cityDB.TwinLat_Data.Float64
+	city.TwinLng = cityDB.TwinLng_Data.Float64
 	city.Population = int(cityDB.Population_Data.Int64)
 }
 

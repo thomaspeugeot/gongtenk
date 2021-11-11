@@ -4,6 +4,8 @@ type City struct {
 	Name       string
 	Lat        float64
 	Lng        float64
+	TwinLat    float64
+	TwinLng    float64
 	Population int
 	Country    *Country
 }

@@ -9,11 +9,13 @@ require (
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.7.4
 	github.com/tealeg/xlsx/v3 v3.2.3
+	github.com/thomaspeugeot/tkv v0.0.0-20211111045940-cd9892fc7e40
 	gorm.io/driver/sqlite v1.2.3
 	gorm.io/gorm v1.22.2
 )
 
 require (
+	github.com/ajstarks/svgo v0.0.0-20210927141636-6d70534b1098 // indirect
 	github.com/frankban/quicktest v1.13.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
@@ -22,6 +24,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/btree v1.0.1 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
+	github.com/gyuho/goraph v0.0.0-20171001060514-a7a4454fd3eb // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.2 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

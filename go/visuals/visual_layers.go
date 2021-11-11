@@ -11,3 +11,7 @@ var IndividualLayerGroup = (&gongleaflet_models.LayerGroup{
 var CitiesLayerGroup = (&gongleaflet_models.LayerGroup{
 	Name: "Cities",
 }).StageCopy()
+
+var TwinCitiesLayerGroup = (&gongleaflet_models.LayerGroup{
+	Name: "TwinCities",
+}).StageCopy()

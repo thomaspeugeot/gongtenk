@@ -13,6 +13,8 @@ export class CityDB {
 	Name: string = ""
 	Lat: number = 0
 	Lng: number = 0
+	TwinLat: number = 0
+	TwinLng: number = 0
 	Population: number = 0
 
 	// insertion point for other declarations

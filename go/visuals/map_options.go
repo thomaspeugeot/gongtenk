@@ -19,6 +19,7 @@ var MapOptionsFrance = (&gongleaflet_models.MapOptions{
 	LayerGroupUses: []*gongleaflet_models.LayerGroupUse{
 		FranceMapOptionsIndividualLayerGroupUse,
 		FranceMapOptionsCitiesLayerGroupUse,
+		FranceMapOptionsCitiesTwinLayerGroupUse,
 	},
 }).Stage()
 
@@ -31,6 +32,12 @@ var FranceMapOptionsIndividualLayerGroupUse = (&gongleaflet_models.LayerGroupUse
 var FranceMapOptionsCitiesLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
 	Name:       "Cities",
 	LayerGroup: CitiesLayerGroup,
+	Display:    true,
+}).StageCopy()
+
+var FranceMapOptionsCitiesTwinLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
+	Name:       "Twin Cities",
+	LayerGroup: TwinCitiesLayerGroup,
 	Display:    true,
 }).StageCopy()
 
@@ -49,6 +56,7 @@ var MapOptionsHaiti = (&gongleaflet_models.MapOptions{
 	LayerGroupUses: []*gongleaflet_models.LayerGroupUse{
 		HaitiMapOptionsIndividualLayerGroupUse,
 		HaitiMapOptionsCitiesLayerGroupUse,
+		HaitiMapOptionsCitiesTwinLayerGroupUse,
 	},
 }).Stage()
 
@@ -61,5 +69,11 @@ var HaitiMapOptionsIndividualLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
 var HaitiMapOptionsCitiesLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
 	Name:       "Cities",
 	LayerGroup: CitiesLayerGroup,
+	Display:    true,
+}).StageCopy()
+
+var HaitiMapOptionsCitiesTwinLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
+	Name:       "Twin Cities",
+	LayerGroup: TwinCitiesLayerGroup,
 	Display:    true,
 }).StageCopy()

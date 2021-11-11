@@ -1,3 +1,6 @@
+# github.com/ajstarks/svgo v0.0.0-20210927141636-6d70534b1098
+## explicit; go 1.15
+github.com/ajstarks/svgo/float
 # github.com/frankban/quicktest v1.13.1
 ## explicit; go 1.13
 github.com/frankban/quicktest
@@ -53,6 +56,9 @@ github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
+# github.com/gyuho/goraph v0.0.0-20171001060514-a7a4454fd3eb
+## explicit
+github.com/gyuho/goraph
 # github.com/jinzhu/inflection v1.0.0
 ## explicit
 github.com/jinzhu/inflection
@@ -98,6 +104,12 @@ github.com/shabbyrobe/xmlwriter
 # github.com/tealeg/xlsx/v3 v3.2.3
 ## explicit; go 1.14
 github.com/tealeg/xlsx/v3
+# github.com/thomaspeugeot/tkv v0.0.0-20211111045940-cd9892fc7e40
+## explicit; go 1.17
+github.com/thomaspeugeot/tkv/barnes-hut
+github.com/thomaspeugeot/tkv/grump
+github.com/thomaspeugeot/tkv/quadtree
+github.com/thomaspeugeot/tkv/translation
 # github.com/ugorji/go/codec v1.2.6
 ## explicit; go 1.11
 github.com/ugorji/go/codec

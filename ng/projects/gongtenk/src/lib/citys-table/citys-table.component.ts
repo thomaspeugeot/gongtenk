@@ -75,6 +75,12 @@ export class CitysTableComponent implements OnInit {
         case 'Lng':
           return cityDB.Lng;
 
+        case 'TwinLat':
+          return cityDB.TwinLat;
+
+        case 'TwinLng':
+          return cityDB.TwinLng;
+
         case 'Population':
           return cityDB.Population;
 
@@ -98,6 +104,8 @@ export class CitysTableComponent implements OnInit {
       mergedContent += cityDB.Name.toLowerCase()
       mergedContent += cityDB.Lat.toString()
       mergedContent += cityDB.Lng.toString()
+      mergedContent += cityDB.TwinLat.toString()
+      mergedContent += cityDB.TwinLng.toString()
       mergedContent += cityDB.Population.toString()
       if (cityDB.Country) {
         mergedContent += cityDB.Country.Name.toLowerCase()
@@ -155,6 +163,8 @@ export class CitysTableComponent implements OnInit {
         "Name",
         "Lat",
         "Lng",
+        "TwinLat",
+        "TwinLng",
         "Population",
         "Country",
       ]
@@ -163,6 +173,8 @@ export class CitysTableComponent implements OnInit {
         "Name",
         "Lat",
         "Lng",
+        "TwinLat",
+        "TwinLng",
         "Population",
         "Country",
       ]

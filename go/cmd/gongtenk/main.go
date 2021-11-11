@@ -33,6 +33,8 @@ import (
 	gongxlsx_models "github.com/fullstack-lang/gongxlsx/go/models"
 	gongxlsx_orm "github.com/fullstack-lang/gongxlsx/go/orm"
 	_ "github.com/fullstack-lang/gongxlsx/ng"
+
+	"github.com/thomaspeugeot/tkv/translation"
 )
 
 var (
@@ -88,6 +90,13 @@ func main() {
 	file := new(gongxlsx_models.XLFile).Stage()
 	file.Open("worldcities_fra_hti.xlsx")
 
+	// load tenk translation
+	currentTranslation := translation.GetTranslateCurrent()
+
+	// setup translation
+	currentTranslation.SetSourceCountry("fra")
+	currentTranslation.SetTargetCountry("hti")
+
 	citiesSheet := file.Sheets[0]
 	for idx, row := range citiesSheet.Rows {
 		if idx == 0 {
@@ -104,6 +113,7 @@ func main() {
 		if population, err := strconv.ParseInt(row.Cells[9].Name, 10, 64); err == nil {
 			city.Population = int(population)
 		}
+
 		countryString := row.Cells[4].Name
 		country := models.Stage.Countrys_mapString[countryString]
 		if country == nil {
@@ -112,6 +122,15 @@ func main() {
 			}).Stage()
 		}
 		city.Country = country
+
+		if countryString == "France" {
+			_, _, _, xSpread, ySpread, _ :=
+				currentTranslation.BodyCoordsInSourceCountry(city.Lat, city.Lng)
+
+			latTarget, lngTarget := currentTranslation.LatLngToXYInTargetCountry(xSpread, ySpread)
+			city.TwinLat = latTarget
+			city.TwinLng = lngTarget
+		}
 	}
 
 	visuals.AttachVisualElementsToModelElements(visuals.CitiesLayerGroup)
