@@ -4,7 +4,7 @@ import (
 	gongleaflet_models "github.com/fullstack-lang/gongleaflet/go/models"
 )
 
-var MapOptions = (&gongleaflet_models.MapOptions{
+var MapOptionsFrance = (&gongleaflet_models.MapOptions{
 
 	Name:               "Whole France",
 	Lat:                45,
@@ -17,12 +17,35 @@ var MapOptions = (&gongleaflet_models.MapOptions{
 	Attribution:        "osm",
 	MaxZoom:            18,
 	LayerGroupUses: []*gongleaflet_models.LayerGroupUse{
-		AircraftLayerGroupUse,
+		FranceMapOptionsIndividualLayerGroupUse,
 	},
 }).Stage()
 
-var AircraftLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
-	Name:       "Aircraft",
-	LayerGroup: AircraftLayerGroup,
+var FranceMapOptionsIndividualLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
+	Name:       "Individual",
+	LayerGroup: IndividualLayerGroup,
+	Display:    true,
+}).StageCopy()
+
+var MapOptionsHaiti = (&gongleaflet_models.MapOptions{
+
+	Name:               "Whole Haiti",
+	Lat:                18.5,
+	Lng:                -72.3,
+	ZoomLevel:          6,
+	ZoomControl:        false,
+	AttributionControl: true,
+	ZoomSnap:           1,
+	UrlTemplate:        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+	Attribution:        "osm",
+	MaxZoom:            18,
+	LayerGroupUses: []*gongleaflet_models.LayerGroupUse{
+		HaitiMapOptionsIndividualLayerGroupUse,
+	},
+}).Stage()
+
+var HaitiMapOptionsIndividualLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
+	Name:       "Individual",
+	LayerGroup: IndividualLayerGroup,
 	Display:    true,
 }).StageCopy()

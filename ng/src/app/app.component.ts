@@ -10,9 +10,7 @@ export class AppComponent {
   carto = 'Carto view'
   data = 'Data view'
   leaflet = 'Leaflet view'
-  sim = 'Sim view'
-  diagrams = 'Diagrams view'
-  views: string[] = [this.carto, this.data, this.leaflet, this.sim, this.diagrams];
+  views: string[] = [this.carto, this.data, this.leaflet];
 
   title = 'ng';
 }

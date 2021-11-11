@@ -4,6 +4,6 @@ import (
 	gongleaflet_models "github.com/fullstack-lang/gongleaflet/go/models"
 )
 
-var AircraftLayerGroup = (&gongleaflet_models.LayerGroup{
-	Name: "Aircraft",
+var IndividualLayerGroup = (&gongleaflet_models.LayerGroup{
+	Name: "Individual",
 }).StageCopy()
