@@ -71,12 +71,11 @@
       "gongtenk": [
         "projects/gongtenk/src/public-api.ts"
       ],
+      "gongtenkspecific": [
+        "projects/gongtenkspecific/src/public-api.ts"
+      ],
       "gongsim": [
         "../vendor/github.com/fullstack-lang/gongsim/ng/projects/gongsim/src/public-api.ts"
-      ],
-      "gongtenkspecific": [
-        "dist/gongtenkspecific/gongtenkspecific",
-        "dist/gongtenkspecific"
       ],
       "gongsimcontrol": [
         "../vendor/github.com/fullstack-lang/gongsim/ng/projects/gongsimcontrol/src/public-api.ts"

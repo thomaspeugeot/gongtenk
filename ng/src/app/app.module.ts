@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { GongtenkModule } from 'gongtenk'
+import { GongtenkspecificModule } from 'gongtenkspecific'
 
 // to split the screen
 import { AngularSplitModule } from 'angular-split';
@@ -66,7 +67,8 @@ import { HttpClientModule } from '@angular/common/http';
     GongleafletModule,
     GongleafletspecificModule,
 
-    GongtenkModule
+    GongtenkModule,
+    GongtenkspecificModule
   ],
   providers: [],
   bootstrap: [AppComponent]
