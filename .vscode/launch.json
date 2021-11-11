@@ -86,32 +86,8 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 300,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
+            "program": "${workspaceFolder}/go/cmd/gongtenk",
             "args": []
-        },
-        {
-            "name": "go server with diagrams",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 300,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
-            "args": [
-                "-diagrams"
-            ]
         },
         {
             "name": "go test",
@@ -120,13 +96,6 @@
             "mode": "test",
             "program": "${workspaceFolder}/go/tests",
             "env": {},
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 300,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-test.run",
                 "Testgongtenk"

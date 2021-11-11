@@ -12,6 +12,12 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
+	Citys           map[*City]struct{}
+	Citys_mapString map[string]*City
+
+	Countrys           map[*Country]struct{}
+	Countrys_mapString map[string]*Country
+
 	Individuals           map[*Individual]struct{}
 	Individuals_mapString map[string]*Individual
 
@@ -37,6 +43,10 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitCity(city *City)
+	CheckoutCity(city *City)
+	CommitCountry(country *Country)
+	CheckoutCountry(country *Country)
 	CommitIndividual(individual *Individual)
 	CheckoutIndividual(individual *Individual)
 	GetLastCommitNb() uint
@@ -45,6 +55,12 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
+	Citys:           make(map[*City]struct{}),
+	Citys_mapString: make(map[string]*City),
+
+	Countrys:           make(map[*Country]struct{}),
+	Countrys_mapString: make(map[string]*Country),
+
 	Individuals:           make(map[*Individual]struct{}),
 	Individuals_mapString: make(map[string]*Individual),
 
@@ -92,6 +108,210 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+func (stage *StageStruct) getCityOrderedStructWithNameField() []*City {
+	// have alphabetical order generation
+	cityOrdered := []*City{}
+	for city := range stage.Citys {
+		cityOrdered = append(cityOrdered, city)
+	}
+	sort.Slice(cityOrdered[:], func(i, j int) bool {
+		return cityOrdered[i].Name < cityOrdered[j].Name
+	})
+	return cityOrdered
+}
+
+// Stage puts city to the model stage
+func (city *City) Stage() *City {
+	Stage.Citys[city] = __member
+	Stage.Citys_mapString[city.Name] = city
+
+	return city
+}
+
+// Unstage removes city off the model stage
+func (city *City) Unstage() *City {
+	delete(Stage.Citys, city)
+	delete(Stage.Citys_mapString, city.Name)
+	return city
+}
+
+// commit city to the back repo (if it is already staged)
+func (city *City) Commit() *City {
+	if _, ok := Stage.Citys[city]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitCity(city)
+		}
+	}
+	return city
+}
+
+// Checkout city to the back repo (if it is already staged)
+func (city *City) Checkout() *City {
+	if _, ok := Stage.Citys[city]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutCity(city)
+		}
+	}
+	return city
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of city to the model stage
+func (city *City) StageCopy() *City {
+	_city := new(City)
+	*_city = *city
+	_city.Stage()
+	return _city
+}
+
+// StageAndCommit appends city to the model stage and commit to the orm repo
+func (city *City) StageAndCommit() *City {
+	city.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCity(city)
+	}
+	return city
+}
+
+// DeleteStageAndCommit appends city to the model stage and commit to the orm repo
+func (city *City) DeleteStageAndCommit() *City {
+	city.Unstage()
+	DeleteORMCity(city)
+	return city
+}
+
+// StageCopyAndCommit appends a copy of city to the model stage and commit to the orm repo
+func (city *City) StageCopyAndCommit() *City {
+	_city := new(City)
+	*_city = *city
+	_city.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCity(city)
+	}
+	return _city
+}
+
+// CreateORMCity enables dynamic staging of a City instance
+func CreateORMCity(city *City) {
+	city.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCity(city)
+	}
+}
+
+// DeleteORMCity enables dynamic staging of a City instance
+func DeleteORMCity(city *City) {
+	city.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMCity(city)
+	}
+}
+
+func (stage *StageStruct) getCountryOrderedStructWithNameField() []*Country {
+	// have alphabetical order generation
+	countryOrdered := []*Country{}
+	for country := range stage.Countrys {
+		countryOrdered = append(countryOrdered, country)
+	}
+	sort.Slice(countryOrdered[:], func(i, j int) bool {
+		return countryOrdered[i].Name < countryOrdered[j].Name
+	})
+	return countryOrdered
+}
+
+// Stage puts country to the model stage
+func (country *Country) Stage() *Country {
+	Stage.Countrys[country] = __member
+	Stage.Countrys_mapString[country.Name] = country
+
+	return country
+}
+
+// Unstage removes country off the model stage
+func (country *Country) Unstage() *Country {
+	delete(Stage.Countrys, country)
+	delete(Stage.Countrys_mapString, country.Name)
+	return country
+}
+
+// commit country to the back repo (if it is already staged)
+func (country *Country) Commit() *Country {
+	if _, ok := Stage.Countrys[country]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitCountry(country)
+		}
+	}
+	return country
+}
+
+// Checkout country to the back repo (if it is already staged)
+func (country *Country) Checkout() *Country {
+	if _, ok := Stage.Countrys[country]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutCountry(country)
+		}
+	}
+	return country
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of country to the model stage
+func (country *Country) StageCopy() *Country {
+	_country := new(Country)
+	*_country = *country
+	_country.Stage()
+	return _country
+}
+
+// StageAndCommit appends country to the model stage and commit to the orm repo
+func (country *Country) StageAndCommit() *Country {
+	country.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCountry(country)
+	}
+	return country
+}
+
+// DeleteStageAndCommit appends country to the model stage and commit to the orm repo
+func (country *Country) DeleteStageAndCommit() *Country {
+	country.Unstage()
+	DeleteORMCountry(country)
+	return country
+}
+
+// StageCopyAndCommit appends a copy of country to the model stage and commit to the orm repo
+func (country *Country) StageCopyAndCommit() *Country {
+	_country := new(Country)
+	*_country = *country
+	_country.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCountry(country)
+	}
+	return _country
+}
+
+// CreateORMCountry enables dynamic staging of a Country instance
+func CreateORMCountry(country *Country) {
+	country.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMCountry(country)
+	}
+}
+
+// DeleteORMCountry enables dynamic staging of a Country instance
+func DeleteORMCountry(country *Country) {
+	country.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMCountry(country)
+	}
+}
+
 func (stage *StageStruct) getIndividualOrderedStructWithNameField() []*Individual {
 	// have alphabetical order generation
 	individualOrdered := []*Individual{}
@@ -196,20 +416,36 @@ func DeleteORMIndividual(individual *Individual) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMCity(City *City)
+	CreateORMCountry(Country *Country)
 	CreateORMIndividual(Individual *Individual)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMCity(City *City)
+	DeleteORMCountry(Country *Country)
 	DeleteORMIndividual(Individual *Individual)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
+	stage.Citys = make(map[*City]struct{})
+	stage.Citys_mapString = make(map[string]*City)
+
+	stage.Countrys = make(map[*Country]struct{})
+	stage.Countrys_mapString = make(map[string]*Country)
+
 	stage.Individuals = make(map[*Individual]struct{})
 	stage.Individuals_mapString = make(map[string]*Individual)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
+	stage.Citys = nil
+	stage.Citys_mapString = nil
+
+	stage.Countrys = nil
+	stage.Countrys_mapString = nil
+
 	stage.Individuals = nil
 	stage.Individuals_mapString = nil
 

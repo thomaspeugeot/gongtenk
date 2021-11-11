@@ -8,6 +8,10 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { CommitNbService } from '../commitnb.service'
 
 // insertion point for per struct import code
+import { CityService } from '../city.service'
+import { getCityUniqueID } from '../front-repo.service'
+import { CountryService } from '../country.service'
+import { getCountryUniqueID } from '../front-repo.service'
 import { IndividualService } from '../individual.service'
 import { getIndividualUniqueID } from '../front-repo.service'
 
@@ -145,6 +149,8 @@ export class SidebarComponent implements OnInit {
     private commitNbService: CommitNbService,
 
     // insertion point for per struct service declaration
+    private cityService: CityService,
+    private countryService: CountryService,
     private individualService: IndividualService,
   ) { }
 
@@ -152,6 +158,22 @@ export class SidebarComponent implements OnInit {
     this.refresh()
 
     // insertion point for per struct observable for refresh trigger
+    // observable for changes in structs
+    this.cityService.CityServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.countryService.CountryServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
     // observable for changes in structs
     this.individualService.IndividualServiceChanged.subscribe(
       message => {
@@ -184,6 +206,129 @@ export class SidebarComponent implements OnInit {
       this.gongNodeTree = new Array<GongNode>();
       
       // insertion point for per struct tree construction
+      /**
+      * fill up the City part of the mat tree
+      */
+      let cityGongNodeStruct: GongNode = {
+        name: "City",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "City",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(cityGongNodeStruct)
+
+      this.frontRepo.Citys_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Citys_array.forEach(
+        cityDB => {
+          let cityGongNodeInstance: GongNode = {
+            name: cityDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: cityDB.ID,
+            uniqueIdPerStack: getCityUniqueID(cityDB.ID),
+            structName: "City",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          cityGongNodeStruct.children!.push(cityGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Country
+          */
+          let CountryGongNodeAssociation: GongNode = {
+            name: "(Country) Country",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: cityDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "City",
+            associationField: "Country",
+            associatedStructName: "Country",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          cityGongNodeInstance.children!.push(CountryGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Country
+            */
+          if (cityDB.Country != undefined) {
+            let cityGongNodeInstance_Country: GongNode = {
+              name: cityDB.Country.Name,
+              type: GongNodeType.INSTANCE,
+              id: cityDB.Country.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getCityUniqueID(cityDB.ID)
+                + 5 * getCountryUniqueID(cityDB.Country.ID),
+              structName: "Country",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            CountryGongNodeAssociation.children.push(cityGongNodeInstance_Country)
+          }
+
+        }
+      )
+
+      /**
+      * fill up the Country part of the mat tree
+      */
+      let countryGongNodeStruct: GongNode = {
+        name: "Country",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Country",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(countryGongNodeStruct)
+
+      this.frontRepo.Countrys_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Countrys_array.forEach(
+        countryDB => {
+          let countryGongNodeInstance: GongNode = {
+            name: countryDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: countryDB.ID,
+            uniqueIdPerStack: getCountryUniqueID(countryDB.ID),
+            structName: "Country",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          countryGongNodeStruct.children!.push(countryGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
       /**
       * fill up the Individual part of the mat tree
       */

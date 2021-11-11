@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
@@ -22,6 +23,7 @@ import (
 	gongtenk "gongtenk"
 	"gongtenk/go/controllers"
 	_ "gongtenk/go/icons"
+	"gongtenk/go/models"
 	gongtenk_models "gongtenk/go/models"
 	"gongtenk/go/orm"
 	_ "gongtenk/go/visuals"
@@ -84,6 +86,32 @@ func main() {
 	// load cities
 	file := new(gongxlsx_models.XLFile).Stage()
 	file.Open("worldcities_fra_hti.xlsx")
+
+	citiesSheet := file.Sheets[0]
+	for idx, row := range citiesSheet.Rows {
+		if idx == 0 {
+			continue
+		}
+		city := new(models.City).Stage()
+		city.Name = row.Cells[0].Name
+		if lat, err := strconv.ParseFloat(row.Cells[2].Name, 64); err == nil {
+			city.Lat = lat
+		}
+		if lng, err := strconv.ParseFloat(row.Cells[3].Name, 64); err == nil {
+			city.Lng = lng
+		}
+		if population, err := strconv.ParseInt(row.Cells[9].Name, 10, 64); err == nil {
+			city.Population = int(population)
+		}
+		countryString := row.Cells[4].Name
+		country := models.Stage.Countrys_mapString[countryString]
+		if country == nil {
+			country = (&models.Country{
+				Name: countryString,
+			}).Stage()
+		}
+		city.Country = country
+	}
 
 	gongleaflet_models.Stage.Commit()
 	gongxlsx_models.Stage.Commit()
