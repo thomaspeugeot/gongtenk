@@ -3,7 +3,7 @@ module gongtenk
 go 1.17
 
 require (
-	github.com/fullstack-lang/gongleaflet v0.0.0-20211110044131-b4e51ad53f5e
+	github.com/fullstack-lang/gongleaflet v0.0.0-20211111203415-83731e835a8d
 	github.com/fullstack-lang/gongxlsx v0.0.0-20211110082428-9aa1df985333
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/static v0.0.1

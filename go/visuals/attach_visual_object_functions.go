@@ -68,9 +68,13 @@ func attachCircle(
 
 func AttachVisualElementsToModelElements(layerGroup *gongleaflet_models.LayerGroup) {
 
-	for obj := range models.Stage.Citys {
-		_ = obj
-		attachVisualTrack(obj, icons.Dot_10, gongleaflet_models.GREY, layerGroup, false, false)
+	for city := range models.Stage.Citys {
+		_ = city
+		if city.Population < 100000 {
+			continue
+		}
+
+		attachVisualTrack(city, icons.Dot_10, gongleaflet_models.GREY, layerGroup, false, false)
 	}
 
 }

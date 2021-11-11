@@ -1,7 +1,7 @@
 # github.com/frankban/quicktest v1.13.1
 ## explicit; go 1.13
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongleaflet v0.0.0-20211110044131-b4e51ad53f5e
+# github.com/fullstack-lang/gongleaflet v0.0.0-20211111203415-83731e835a8d
 ## explicit; go 1.16
 github.com/fullstack-lang/gongleaflet/go/controllers
 github.com/fullstack-lang/gongleaflet/go/models

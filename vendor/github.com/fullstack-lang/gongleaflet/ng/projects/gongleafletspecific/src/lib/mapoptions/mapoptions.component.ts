@@ -81,6 +81,9 @@ export class MapoptionsComponent implements OnInit {
   // commitNb stores the number of commit on the backend
   commitNb: number = 0
 
+  // commitNb stores the number of commit on the frontend
+  commitFromFrontNb: number = 0
+
   DotLeafletDivIcon = manageLeafletItems.newIcon(
     'icon',
     'layer-',
@@ -96,6 +99,7 @@ export class MapoptionsComponent implements OnInit {
     private markerService: gongleaflet.MarkerService,
     private layerGroupUseService: gongleaflet.LayerGroupUseService,
     private commitNbService: gongleaflet.CommitNbService,
+    private pushFromFrontService: gongleaflet.PushFromFrontNbService,
     private router: Router,
     public zone: NgZone
   ) {
@@ -161,6 +165,16 @@ export class MapoptionsComponent implements OnInit {
                 if (commitNb > this.commitNb) {
                   this.refreshMapWithMarkers()
                   this.commitNb = commitNb
+                }
+              }
+            )
+
+            this.pushFromFrontService.getPushFromFrontNb().subscribe(
+              pushFromFrontNb => {
+                // console.log("commit nb in the back " + commitNb + " local commit nb " + this.commitNb)
+                if (pushFromFrontNb > this.commitFromFrontNb) {
+                  this.refreshMapWithMarkers()
+                  this.commitFromFrontNb = pushFromFrontNb
                 }
               }
             )
