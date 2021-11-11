@@ -81,6 +81,10 @@ func main() {
 		c.Abort()
 	})
 
+	// load cities
+	file := new(gongxlsx_models.XLFile).Stage()
+	file.Open("worldcities_fra_hti.xlsx")
+
 	gongleaflet_models.Stage.Commit()
 	gongxlsx_models.Stage.Commit()
 	gongtenk_models.Stage.Commit()
