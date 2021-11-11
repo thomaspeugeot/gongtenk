@@ -43,6 +43,20 @@ type ValidationError struct {
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/gongtenk/go")
 	{ // insertion point for registrations
+		v1.GET("/v1/citys", GetCitys)
+		v1.GET("/v1/citys/:id", GetCity)
+		v1.POST("/v1/citys", PostCity)
+		v1.PATCH("/v1/citys/:id", UpdateCity)
+		v1.PUT("/v1/citys/:id", UpdateCity)
+		v1.DELETE("/v1/citys/:id", DeleteCity)
+
+		v1.GET("/v1/countrys", GetCountrys)
+		v1.GET("/v1/countrys/:id", GetCountry)
+		v1.POST("/v1/countrys", PostCountry)
+		v1.PATCH("/v1/countrys/:id", UpdateCountry)
+		v1.PUT("/v1/countrys/:id", UpdateCountry)
+		v1.DELETE("/v1/countrys/:id", DeleteCountry)
+
 		v1.GET("/v1/individuals", GetIndividuals)
 		v1.GET("/v1/individuals/:id", GetIndividual)
 		v1.POST("/v1/individuals", PostIndividual)

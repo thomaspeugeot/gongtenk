@@ -95,6 +95,12 @@
       "gongleafletspecific": [
         "../vendor/github.com/fullstack-lang/gongleaflet/ng/projects/gongleafletspecific/src/public-api.ts"
       ],
+      "gongxlsx": [
+        "../vendor/github.com/fullstack-lang/gongxlsx/ng/projects/gongxlsx/src/public-api.ts"
+      ],
+      "gongxlsxspecific": [
+        "../vendor/github.com/fullstack-lang/gongxlsx/ng/projects/gongxlsxspecific/src/public-api.ts"
+      ],
     }
   }
 }

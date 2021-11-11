@@ -14,6 +14,20 @@ export * from './lib/commitnb.service'
 export * from './lib/push_from_front_nb.service'
 
 
+export * from './lib/city-detail/city-detail.component'
+export * from './lib/city-presentation/city-presentation.component'
+export * from './lib/city-sorting/city-sorting.component'
+export * from './lib/citys-table/citys-table.component'
+export * from './lib/city-db'
+export * from './lib/city.service'
+
+export * from './lib/country-detail/country-detail.component'
+export * from './lib/country-presentation/country-presentation.component'
+export * from './lib/country-sorting/country-sorting.component'
+export * from './lib/countrys-table/countrys-table.component'
+export * from './lib/country-db'
+export * from './lib/country.service'
+
 export * from './lib/individual-detail/individual-detail.component'
 export * from './lib/individual-presentation/individual-presentation.component'
 export * from './lib/individual-sorting/individual-sorting.component'

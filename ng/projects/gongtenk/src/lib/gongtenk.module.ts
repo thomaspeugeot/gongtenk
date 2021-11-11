@@ -38,6 +38,16 @@ import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
+import { CitysTableComponent } from './citys-table/citys-table.component'
+import { CitySortingComponent } from './city-sorting/city-sorting.component'
+import { CityDetailComponent } from './city-detail/city-detail.component'
+import { CityPresentationComponent } from './city-presentation/city-presentation.component'
+
+import { CountrysTableComponent } from './countrys-table/countrys-table.component'
+import { CountrySortingComponent } from './country-sorting/country-sorting.component'
+import { CountryDetailComponent } from './country-detail/country-detail.component'
+import { CountryPresentationComponent } from './country-presentation/country-presentation.component'
+
 import { IndividualsTableComponent } from './individuals-table/individuals-table.component'
 import { IndividualSortingComponent } from './individual-sorting/individual-sorting.component'
 import { IndividualDetailComponent } from './individual-detail/individual-detail.component'
@@ -47,6 +57,16 @@ import { IndividualPresentationComponent } from './individual-presentation/indiv
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
+		CitysTableComponent,
+		CitySortingComponent,
+		CityDetailComponent,
+		CityPresentationComponent,
+
+		CountrysTableComponent,
+		CountrySortingComponent,
+		CountryDetailComponent,
+		CountryPresentationComponent,
+
 		IndividualsTableComponent,
 		IndividualSortingComponent,
 		IndividualDetailComponent,
@@ -91,6 +111,16 @@ import { IndividualPresentationComponent } from './individual-presentation/indiv
 	],
 	exports: [
 		// insertion point for declarations 
+		CitysTableComponent,
+		CitySortingComponent,
+		CityDetailComponent,
+		CityPresentationComponent,
+
+		CountrysTableComponent,
+		CountrySortingComponent,
+		CountryDetailComponent,
+		CountryPresentationComponent,
+
 		IndividualsTableComponent,
 		IndividualSortingComponent,
 		IndividualDetailComponent,

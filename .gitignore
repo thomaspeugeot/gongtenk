@@ -1,2 +1,5 @@
 go/cmd/gongtenk/gongtenk
 go/cmd/gongtenk/test.db
+go/.DS_Store
+go/cmd/gongtenk/__debug_bin
+go/cmd/.DS_Store

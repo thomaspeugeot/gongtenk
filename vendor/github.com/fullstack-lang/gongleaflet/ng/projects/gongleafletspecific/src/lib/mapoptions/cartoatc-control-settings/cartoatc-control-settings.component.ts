@@ -92,6 +92,8 @@ export class CartoatcControlSettingsComponent implements OnInit {
       this.layerGroupUseService.updateLayerGroupUse(layerGroupUse).subscribe(
         () => {
           console.log("layer group use " + layerGroupUse?.Name + " display value updated to " + layerGroupUse?.Display)
+
+          this.layerGroupUseService.LayerGroupUseServiceChanged.next("update")
         }
       )
     }

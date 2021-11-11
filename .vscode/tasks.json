@@ -89,13 +89,24 @@
       "group": "build"
     },
     {
-      "label": "00 - go get -d github.com/fullstack-lang/gong@HEADy",
+      "label": "00 - go get -d github.com/fullstack-lang/gong@HEAD",
       "type": "shell",
       "command": "go",
       "args": [
         "get",
         "-d",
         "github.com/fullstack-lang/gong@HEAD",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go get -d github.com/thomaspeugeot/tkv@HEAD",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "get",
+        "-d",
+        "github.com/thomaspeugeot/tkv@HEAD",
       ],
       "group": "build"
     },
