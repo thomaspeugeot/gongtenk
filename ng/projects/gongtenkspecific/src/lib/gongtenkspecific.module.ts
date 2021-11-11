@@ -32,6 +32,9 @@ import { FormsModule } from '@angular/forms';
 import { GongleafletModule } from 'gongleaflet'
 import { GongleafletspecificModule } from 'gongleafletspecific'
 
+// Leaflet
+import { GongxlsxModule } from 'gongxlsx'
+import { GongxlsxspecificModule } from 'gongxlsxspecific'
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
 
@@ -67,6 +70,10 @@ import { HttpClientModule } from '@angular/common/http';
     // gongleaflet stack
     GongleafletModule,
     GongleafletspecificModule,
+
+    GongxlsxModule,
+    GongxlsxspecificModule
+
   ],
   exports: [
     GongtenkspecificComponent,

@@ -10,8 +10,9 @@ export class TenkMapComponent implements OnInit {
   view = 'Carto view'
   carto = 'Carto view'
   data = 'Data view'
+  xlsx = 'XL view'
   leaflet = 'Leaflet view'
-  views: string[] = [this.carto, this.data, this.leaflet];
+  views: string[] = [this.carto, this.data, this.xlsx, this.leaflet];
 
   userClick(lat: number, lng: number): void {
     console.log("user clicked on lat: " + lat + " lng: " + lng)

@@ -13,9 +13,6 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
-	"gongtenk/go/controllers"
-	"gongtenk/go/orm"
-
 	// for carto display
 	gongleaflet_controllers "github.com/fullstack-lang/gongleaflet/go/controllers"
 	gongleaflet_models "github.com/fullstack-lang/gongleaflet/go/models"
@@ -23,8 +20,16 @@ import (
 	_ "github.com/fullstack-lang/gongleaflet/ng"
 
 	gongtenk "gongtenk"
+	"gongtenk/go/controllers"
 	_ "gongtenk/go/icons"
+	gongtenk_models "gongtenk/go/models"
+	"gongtenk/go/orm"
 	_ "gongtenk/go/visuals"
+
+	gongxlsx_controllers "github.com/fullstack-lang/gongxlsx/go/controllers"
+	gongxlsx_models "github.com/fullstack-lang/gongxlsx/go/models"
+	gongxlsx_orm "github.com/fullstack-lang/gongxlsx/go/orm"
+	_ "github.com/fullstack-lang/gongxlsx/ng"
 )
 
 var (
@@ -62,9 +67,11 @@ func main() {
 
 	// add gongleaflet database
 	gongleaflet_orm.AutoMigrate(db)
+	gongxlsx_orm.AutoMigrate(db)
 
 	controllers.RegisterControllers(r)
 	gongleaflet_controllers.RegisterControllers(r)
+	gongxlsx_controllers.RegisterControllers(r)
 
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder(gongtenk.NgDistNg, "ng/dist/ng")))
@@ -75,6 +82,8 @@ func main() {
 	})
 
 	gongleaflet_models.Stage.Commit()
+	gongxlsx_models.Stage.Commit()
+	gongtenk_models.Stage.Commit()
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

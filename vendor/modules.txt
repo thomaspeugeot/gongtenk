@@ -7,6 +7,12 @@ github.com/fullstack-lang/gongleaflet/go/controllers
 github.com/fullstack-lang/gongleaflet/go/models
 github.com/fullstack-lang/gongleaflet/go/orm
 github.com/fullstack-lang/gongleaflet/ng
+# github.com/fullstack-lang/gongxlsx v0.0.0-20211110082428-9aa1df985333
+## explicit; go 1.17
+github.com/fullstack-lang/gongxlsx/go/controllers
+github.com/fullstack-lang/gongxlsx/go/models
+github.com/fullstack-lang/gongxlsx/go/orm
+github.com/fullstack-lang/gongxlsx/ng
 # github.com/gin-contrib/cors v1.3.1
 ## explicit; go 1.13
 github.com/gin-contrib/cors
