@@ -1,0 +1,186 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "02 - run gongtenk",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/go/cmd/gongtenk"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        "main.go",
+        "-diagrams",
+        // "-logGIN",
+        // "-noEmbed"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "02 - run gongtenk w/o diagrams",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/go/cmd/gongtenk"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        "main.go",
+        "-diagrams=false"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "03 - lsof -i tcp:8080 ",
+      "type": "shell",
+      "command": "lsof -i tcp:8080 ",
+      "group": "build"
+    },
+    {
+      "label": "05 - go test gongtenk",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/go/tests"
+      },
+      "command": "go",
+      "args": [
+        "test"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "03 - ng build",
+      "type": "shell",
+      "command": "cd ng; ng build",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "04 - ng serve",
+      "type": "shell",
+      "command": "cd ng; ng serve",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "01 - gongc gongtenk",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/go/models"
+      },
+      "command": "gongc",
+      "group": "build",
+      "args": []
+    },
+    {
+      "label": "01 - gongc gongtenk -backendOnly",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/go/models"
+      },
+      "command": "gongc",
+      "group": "build",
+      "args": [
+        "-backendOnly"
+      ]
+    },
+    {
+      "label": "00 - go mod vendor",
+      "type": "shell",
+      "group": "build",
+      "command": "go mod vendor"
+    },
+    {
+      "label": "00 - update gong dependencies",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "get",
+        "-d",
+        "github.com/fullstack-lang/gong@HEAD",
+        "github.com/fullstack-lang/gongdoc@HEAD",
+        "github.com/fullstack-lang/gongsim@HEAD",
+        "github.com/fullstack-lang/gongleaflet@HEAD",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go get -d github.com/fullstack-lang/gong@HEADy",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "get",
+        "-d",
+        "github.com/fullstack-lang/gong@HEAD",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go get -d github.com/fullstack-lang/gongdoc@HEAD",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "get",
+        "-d",
+        "github.com/fullstack-lang/gongdoc@HEAD",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go get -d github.com/fullstack-lang/gongsim@HEAD",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "get",
+        "-d",
+        "github.com/fullstack-lang/gongsim@HEAD",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go get -d github.com/fullstack-lang/gongleaflet@HEAD",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "get",
+        "-d",
+        "github.com/fullstack-lang/gongleaflet@HEAD",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go get -d github.com/fullstack-lang/gongleaflet@thomaspeugeot/issue5",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "get",
+        "-d",
+        "github.com/fullstack-lang/gongleaflet@thomaspeugeot/issue5",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go mod tidy",
+      "type": "shell",
+      "command": "go",
+      "args": [
+        "mod",
+        "tidy"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - go build",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/go/cmd/gongtenk"
+      },
+      "command": "go",
+      "args": [
+        "build"
+      ],
+      "group": "build"
+    },
+  ]
+}
