@@ -7,3 +7,7 @@ import (
 var IndividualLayerGroup = (&gongleaflet_models.LayerGroup{
 	Name: "Individual",
 }).StageCopy()
+
+var CitiesLayerGroup = (&gongleaflet_models.LayerGroup{
+	Name: "Cities",
+}).StageCopy()

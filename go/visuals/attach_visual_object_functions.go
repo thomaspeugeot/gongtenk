@@ -1,6 +1,7 @@
 package visuals
 
 import (
+	"gongtenk/go/icons"
 	"gongtenk/go/models"
 	"log"
 
@@ -67,9 +68,9 @@ func attachCircle(
 
 func AttachVisualElementsToModelElements(layerGroup *gongleaflet_models.LayerGroup) {
 
-	for obj := range models.Stage.Individuals {
+	for obj := range models.Stage.Citys {
 		_ = obj
-		// attachVisualTrack(obj, icons.Arrow, gongleaflet_models.GREY, layerGroup, false, false)
+		attachVisualTrack(obj, icons.Dot_10, gongleaflet_models.GREY, layerGroup, false, false)
 	}
 
 }

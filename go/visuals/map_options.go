@@ -18,12 +18,19 @@ var MapOptionsFrance = (&gongleaflet_models.MapOptions{
 	MaxZoom:            18,
 	LayerGroupUses: []*gongleaflet_models.LayerGroupUse{
 		FranceMapOptionsIndividualLayerGroupUse,
+		FranceMapOptionsCitiesLayerGroupUse,
 	},
 }).Stage()
 
 var FranceMapOptionsIndividualLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
 	Name:       "Individual",
 	LayerGroup: IndividualLayerGroup,
+	Display:    true,
+}).StageCopy()
+
+var FranceMapOptionsCitiesLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
+	Name:       "Cities",
+	LayerGroup: CitiesLayerGroup,
 	Display:    true,
 }).StageCopy()
 
@@ -41,11 +48,18 @@ var MapOptionsHaiti = (&gongleaflet_models.MapOptions{
 	MaxZoom:            18,
 	LayerGroupUses: []*gongleaflet_models.LayerGroupUse{
 		HaitiMapOptionsIndividualLayerGroupUse,
+		HaitiMapOptionsCitiesLayerGroupUse,
 	},
 }).Stage()
 
 var HaitiMapOptionsIndividualLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
 	Name:       "Individual",
 	LayerGroup: IndividualLayerGroup,
+	Display:    true,
+}).StageCopy()
+
+var HaitiMapOptionsCitiesLayerGroupUse = (&gongleaflet_models.LayerGroupUse{
+	Name:       "Cities",
+	LayerGroup: CitiesLayerGroup,
 	Display:    true,
 }).StageCopy()

@@ -26,6 +26,7 @@ import (
 	"gongtenk/go/models"
 	gongtenk_models "gongtenk/go/models"
 	"gongtenk/go/orm"
+	"gongtenk/go/visuals"
 	_ "gongtenk/go/visuals"
 
 	gongxlsx_controllers "github.com/fullstack-lang/gongxlsx/go/controllers"
@@ -112,6 +113,8 @@ func main() {
 		}
 		city.Country = country
 	}
+
+	visuals.AttachVisualElementsToModelElements(visuals.CitiesLayerGroup)
 
 	gongleaflet_models.Stage.Commit()
 	gongxlsx_models.Stage.Commit()
