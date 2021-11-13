@@ -2,6 +2,7 @@ package visuals
 
 import (
 	"log"
+	"sort"
 
 	"github.com/thomaspeugeot/gongtenk/go/icons"
 	"github.com/thomaspeugeot/gongtenk/go/models"
@@ -67,9 +68,18 @@ func attachCircle(
 
 func AttachVisualElementsToModelElements() {
 
+	cityOrdered := []*models.City{}
 	for city := range models.Stage.Citys {
+		cityOrdered = append(cityOrdered, city)
+	}
+	// sort cities according to their population
+	sort.Slice(cityOrdered[:], func(i, j int) bool {
+		return cityOrdered[i].Population < cityOrdered[j].Population
+	})
+
+	for index, city := range cityOrdered {
 		_ = city
-		if city.Population < 10000 {
+		if index > models.ConfigurationSingloton.NumberOfCitiesToDisplay {
 			continue
 		}
 
