@@ -90,4 +90,5 @@ func AttachVisualElementsToModelElements() {
 		}
 	}
 
+	gongleaflet_models.Stage.Commit()
 }
