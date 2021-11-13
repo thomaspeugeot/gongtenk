@@ -248,7 +248,7 @@
       "group": "build"
     },
     {
-      "label": "00 - gcloud run deploy --image europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+      "label": "00 - gcloud run deploy docker-gongtenk --image europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -302,6 +302,42 @@
         "--publish",
         "8080:8080",
         "docker-gongtenk",
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - gcloud beta run domain-mappings create --domain tenktenk.org --service docker-gongtenk",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "gcloud",
+      "args": [
+        "beta",
+        "run",
+        "domain-mappings",
+        "create",
+        "--domain",
+        "tenktenk.org",
+        "--service",
+        "docker-gongtenk"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - gcloud beta run domain-mappings delete --domain tenktenk.org",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "gcloud",
+      "args": [
+        "beta",
+        "run",
+        "domain-mappings",
+        "delete",
+        "--domain",
+        "tenktenk.org",
       ],
       "group": "build"
     },
