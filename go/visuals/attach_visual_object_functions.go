@@ -88,7 +88,7 @@ func AttachVisualElementsToModelElements() {
 		} else {
 			attachVisualTrack(city, icons.Dot_10, gongleaflet_models.GREEN, false, false)
 		}
+		gongleaflet_models.Stage.Commit()
 	}
 
-	gongleaflet_models.Stage.Commit()
 }
