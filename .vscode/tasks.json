@@ -21,6 +21,12 @@
       "group": "build"
     },
     {
+      "label": "10 - docker build",
+      "type": "shell",
+      "command": "docker build --tag docker-gongtenk .",
+      "group": "build"
+    },
+    {
       "label": "05 - go test gongtenk",
       "type": "shell",
       "options": {

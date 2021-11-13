@@ -1,6 +1,6 @@
-FROM golang:1.16-alpine
+FROM golang:1.17.3 AS build
 
-RUN apk add git
+# RUN apk add git
 # FROM golang:1.16 AS build very big image
 
 
@@ -15,7 +15,7 @@ RUN go mod download
 # Copy the source code. Note the slash at the end, as explained in
 # https://docs.docker.com/engine/reference/builder/#copy
 ADD go go
-ADD ng/dist/ng ng/dist/ng
+ADD ng ng
 COPY embed.go ./
 
 # Build
