@@ -21,6 +21,13 @@ export * from './lib/citys-table/citys-table.component'
 export * from './lib/city-db'
 export * from './lib/city.service'
 
+export * from './lib/configuration-detail/configuration-detail.component'
+export * from './lib/configuration-presentation/configuration-presentation.component'
+export * from './lib/configuration-sorting/configuration-sorting.component'
+export * from './lib/configurations-table/configurations-table.component'
+export * from './lib/configuration-db'
+export * from './lib/configuration.service'
+
 export * from './lib/country-detail/country-detail.component'
 export * from './lib/country-presentation/country-presentation.component'
 export * from './lib/country-sorting/country-sorting.component'

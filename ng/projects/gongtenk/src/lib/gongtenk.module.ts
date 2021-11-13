@@ -43,6 +43,11 @@ import { CitySortingComponent } from './city-sorting/city-sorting.component'
 import { CityDetailComponent } from './city-detail/city-detail.component'
 import { CityPresentationComponent } from './city-presentation/city-presentation.component'
 
+import { ConfigurationsTableComponent } from './configurations-table/configurations-table.component'
+import { ConfigurationSortingComponent } from './configuration-sorting/configuration-sorting.component'
+import { ConfigurationDetailComponent } from './configuration-detail/configuration-detail.component'
+import { ConfigurationPresentationComponent } from './configuration-presentation/configuration-presentation.component'
+
 import { CountrysTableComponent } from './countrys-table/countrys-table.component'
 import { CountrySortingComponent } from './country-sorting/country-sorting.component'
 import { CountryDetailComponent } from './country-detail/country-detail.component'
@@ -61,6 +66,11 @@ import { IndividualPresentationComponent } from './individual-presentation/indiv
 		CitySortingComponent,
 		CityDetailComponent,
 		CityPresentationComponent,
+
+		ConfigurationsTableComponent,
+		ConfigurationSortingComponent,
+		ConfigurationDetailComponent,
+		ConfigurationPresentationComponent,
 
 		CountrysTableComponent,
 		CountrySortingComponent,
@@ -115,6 +125,11 @@ import { IndividualPresentationComponent } from './individual-presentation/indiv
 		CitySortingComponent,
 		CityDetailComponent,
 		CityPresentationComponent,
+
+		ConfigurationsTableComponent,
+		ConfigurationSortingComponent,
+		ConfigurationDetailComponent,
+		ConfigurationPresentationComponent,
 
 		CountrysTableComponent,
 		CountrySortingComponent,
