@@ -95,13 +95,13 @@
       "group": "build"
     },
     {
-      "label": "00 - go get -d github.com/fullstack-lang/gong@HEAD",
+      "label": "00 - go get -d github.com/fullstack-lang/gongxlsx@HEAD",
       "type": "shell",
       "command": "go",
       "args": [
         "get",
         "-d",
-        "github.com/fullstack-lang/gong@HEAD",
+        "github.com/fullstack-lang/gongxlsx@HEAD",
       ],
       "group": "build"
     },
@@ -179,6 +179,36 @@
       "command": "go",
       "args": [
         "build"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - docker build --tag docker-gongtenk .",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "docker",
+      "args": [
+        "build",
+        "--tag",
+        "docker-gongtenk",
+        "."
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - docker run -it docker-gongtenk sh",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "docker",
+      "args": [
+        "run",
+        "-it",
+        "docker-gongtenk",
+        "sh"
       ],
       "group": "build"
     },

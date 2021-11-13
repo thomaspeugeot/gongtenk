@@ -1,8 +1,6 @@
-FROM golang:1.17.3 AS build
+FROM golang:1.16-alpine
 
-# RUN apk add git
-# FROM golang:1.16 AS build very big image
-
+RUN apk add git
 
 # Set destination for COPY
 WORKDIR /
@@ -20,7 +18,6 @@ COPY embed.go ./
 
 # Build
 WORKDIR /go/cmd/gongtenk
-RUN go get gongtenk
 RUN go build
 
 # This is for documentation purposes only.
