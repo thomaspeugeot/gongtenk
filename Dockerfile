@@ -14,7 +14,7 @@ RUN go mod download
 # Copy the source code. Note the slash at the end, as explained in
 # https://docs.docker.com/engine/reference/builder/#copy
 ADD go go
-ADD ng ng
+ADD ng/dist/ng ng/dist/ng
 COPY embed.go ./
 
 # Build

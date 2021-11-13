@@ -208,6 +208,74 @@
       "group": "build"
     },
     {
+      "label": "00 - docker image ls",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "docker",
+      "args": [
+        "image",
+        "ls"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - docker tag docker-gongtenk europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "docker",
+      "args": [
+        "tag",
+        "docker-gongtenk",
+        "europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - docker push europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "docker",
+      "args": [
+        "push",
+        "europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - gcloud run deploy --image europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "gcloud",
+      "args": [
+        "run",
+        "deploy",
+        "docker-gongtenk",
+        "--image",
+        "europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+        "--cpu",
+        "1",
+        "--concurrency",
+        "1",
+        "--max-instances",
+        "1",
+        "--memory",
+        "1024Mi",
+        "--port",
+        "8080",
+        "--clear-env-vars",
+        "--allow-unauthenticated"
+      ],
+      "group": "build"
+    },
+    {
       "label": "00 - docker run -it docker-gongtenk sh",
       "type": "shell",
       "options": {
