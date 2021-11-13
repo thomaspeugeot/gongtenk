@@ -1,4 +1,4 @@
-module gongtenk
+module github.com/thomaspeugot/gongtenk
 
 go 1.16
 

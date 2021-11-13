@@ -14,6 +14,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/thomaspeugot/gongtenk/go/visuals"
 
 	// for carto display
 	gongleaflet_controllers "github.com/fullstack-lang/gongleaflet/go/controllers"
@@ -21,14 +22,13 @@ import (
 	gongleaflet_orm "github.com/fullstack-lang/gongleaflet/go/orm"
 	_ "github.com/fullstack-lang/gongleaflet/ng"
 
-	gongtenk "gongtenk"
-	"gongtenk/go/controllers"
-	_ "gongtenk/go/icons"
-	"gongtenk/go/models"
-	gongtenk_models "gongtenk/go/models"
-	"gongtenk/go/orm"
-	"gongtenk/go/visuals"
-	_ "gongtenk/go/visuals"
+	gongtenk "github.com/thomapeugeot/gongtenk"
+
+	_ "github.com/thomapeugeot/gongtenk/go/icons"
+
+	gongtenk_controllers "github.com/thomapeugeot/gongtenk/go/controllers"
+	gongtenk_models "github.com/thomapeugeot/gongtenk/go/models"
+	gongtenk_orm "github.com/thomapeugeot/gongtenk/go/orm"
 
 	gongxlsx_controllers "github.com/fullstack-lang/gongxlsx/go/controllers"
 	gongxlsx_models "github.com/fullstack-lang/gongxlsx/go/models"
@@ -61,7 +61,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db := orm.SetupModels(*logDBFlag, ":memory:")
+	db := gongtenk_orm.SetupModels(*logDBFlag, ":memory:")
 	dbDB, err := db.DB()
 
 	// since the stack can be a multi threaded application. It is important to set up
@@ -75,7 +75,7 @@ func main() {
 	gongleaflet_orm.AutoMigrate(db)
 	gongxlsx_orm.AutoMigrate(db)
 
-	controllers.RegisterControllers(r)
+	gongtenk_controllers.RegisterControllers(r)
 	gongleaflet_controllers.RegisterControllers(r)
 	gongxlsx_controllers.RegisterControllers(r)
 
@@ -102,7 +102,7 @@ func main() {
 		if idx == 0 {
 			continue
 		}
-		city := new(models.City).Stage()
+		city := new(gongtenk_models.City).Stage()
 		city.Name = row.Cells[0].Name
 		if lat, err := strconv.ParseFloat(row.Cells[2].Name, 64); err == nil {
 			city.Lat = lat
@@ -115,9 +115,9 @@ func main() {
 		}
 
 		countryString := row.Cells[4].Name
-		country := models.Stage.Countrys_mapString[countryString]
+		country := gongtenk_models.Stage.Countrys_mapString[countryString]
 		if country == nil {
-			country = (&models.Country{
+			country = (&gongtenk_models.Country{
 				Name: countryString,
 			}).Stage()
 		}
@@ -137,7 +137,7 @@ func main() {
 		city.TwinLat = latTarget
 		city.TwinLng = lngTarget
 
-		twinCity := new(models.City).Stage()
+		twinCity := new(gongtenk_models.City).Stage()
 		*twinCity = *city
 		twinCity.Lat = city.TwinLat
 		twinCity.Lng = city.TwinLng
