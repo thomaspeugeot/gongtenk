@@ -51,6 +51,9 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="city.Population" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="TwinFormControl">Twin</mat-checkbox>
+
     <mat-form-field class="detail-full-width">
         <mat-label>Country</mat-label>
         <mat-select [compareWith]="compareObjects" [(value)]="city.Country" (selectionChange)="fillUpNameIfEmpty($event)">

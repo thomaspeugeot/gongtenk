@@ -17,7 +17,7 @@ import (
 
 	"github.com/tealeg/xlsx/v3"
 
-	"gongtenk/go/models"
+	"github.com/thomaspeugeot/gongtenk/go/models"
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
@@ -79,6 +79,10 @@ type CityDB struct {
 
 	// Declation for basic field cityDB.Population {{BasicKind}} (to be completed)
 	Population_Data sql.NullInt64
+
+	// Declation for basic field cityDB.Twin bool (to be completed)
+	// provide the sql storage for the boolan
+	Twin_Data sql.NullBool
 	// encoding of pointers
 	CityPointersEnconding
 }
@@ -111,6 +115,8 @@ type CityWOP struct {
 	TwinLng float64 `xlsx:"5"`
 
 	Population int `xlsx:"6"`
+
+	Twin bool `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -123,6 +129,7 @@ var City_Fields = []string{
 	"TwinLat",
 	"TwinLng",
 	"Population",
+	"Twin",
 }
 
 type BackRepoCityStruct struct {
@@ -434,6 +441,9 @@ func (cityDB *CityDB) CopyBasicFieldsFromCity(city *models.City) {
 
 	cityDB.Population_Data.Int64 = int64(city.Population)
 	cityDB.Population_Data.Valid = true
+
+	cityDB.Twin_Data.Bool = city.Twin
+	cityDB.Twin_Data.Valid = true
 }
 
 // CopyBasicFieldsFromCityWOP
@@ -457,6 +467,9 @@ func (cityDB *CityDB) CopyBasicFieldsFromCityWOP(city *CityWOP) {
 
 	cityDB.Population_Data.Int64 = int64(city.Population)
 	cityDB.Population_Data.Valid = true
+
+	cityDB.Twin_Data.Bool = city.Twin
+	cityDB.Twin_Data.Valid = true
 }
 
 // CopyBasicFieldsToCity
@@ -468,6 +481,7 @@ func (cityDB *CityDB) CopyBasicFieldsToCity(city *models.City) {
 	city.TwinLat = cityDB.TwinLat_Data.Float64
 	city.TwinLng = cityDB.TwinLng_Data.Float64
 	city.Population = int(cityDB.Population_Data.Int64)
+	city.Twin = cityDB.Twin_Data.Bool
 }
 
 // CopyBasicFieldsToCityWOP
@@ -480,6 +494,7 @@ func (cityDB *CityDB) CopyBasicFieldsToCityWOP(city *CityWOP) {
 	city.TwinLat = cityDB.TwinLat_Data.Float64
 	city.TwinLng = cityDB.TwinLng_Data.Float64
 	city.Population = int(cityDB.Population_Data.Int64)
+	city.Twin = cityDB.Twin_Data.Bool
 }
 
 // Backup generates a json file from a slice of all CityDB instances in the backrepo

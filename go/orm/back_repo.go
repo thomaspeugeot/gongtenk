@@ -11,7 +11,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"gongtenk/go/models"
+	"github.com/thomaspeugeot/gongtenk/go/models"
 
 	"github.com/tealeg/xlsx/v3"
 )

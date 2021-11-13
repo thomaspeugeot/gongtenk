@@ -33,6 +33,7 @@ enum CityDetailComponentState {
 export class CityDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	TwinFormControl = new FormControl(false);
 
 	// the CityDB of interest
 	city: CityDB = new CityDB
@@ -122,6 +123,7 @@ export class CityDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.TwinFormControl.setValue(this.city.Twin)
 			}
 		)
 
@@ -134,6 +136,7 @@ export class CityDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.city.Twin = this.TwinFormControl.value
 		if (this.city.CountryID == undefined) {
 			this.city.CountryID = new NullInt64
 		}

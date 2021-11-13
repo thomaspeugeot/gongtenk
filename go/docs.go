@@ -3,7 +3,7 @@
 // gongtenk exposes types of a package.
 //
 //     Schemes: http
-//     BasePath: /api/gongtenk/go/v1
+//     BasePath: /api/github.com/thomaspeugeot/gongtenk/go/v1
 //     Version: 0.1
 //     Host: localhost:8080
 //

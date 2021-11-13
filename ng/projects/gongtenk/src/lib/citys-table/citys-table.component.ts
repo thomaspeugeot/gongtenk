@@ -84,6 +84,9 @@ export class CitysTableComponent implements OnInit {
         case 'Population':
           return cityDB.Population;
 
+        case 'Twin':
+          return cityDB.Twin?"true":"false";
+
         case 'Country':
           return (cityDB.Country ? cityDB.Country.Name : '');
 
@@ -166,6 +169,7 @@ export class CitysTableComponent implements OnInit {
         "TwinLat",
         "TwinLng",
         "Population",
+        "Twin",
         "Country",
       ]
     } else {
@@ -176,6 +180,7 @@ export class CitysTableComponent implements OnInit {
         "TwinLat",
         "TwinLng",
         "Population",
+        "Twin",
         "Country",
       ]
       this.selection = new SelectionModel<CityDB>(allowMultiSelect, this.initialSelection);
@@ -251,14 +256,14 @@ export class CitysTableComponent implements OnInit {
 
   // display city in router
   displayCityInRouter(cityID: number) {
-    this.router.navigate(["gongtenk_go-" + "city-display", cityID])
+    this.router.navigate(["github_com_thomaspeugeot_gongtenk_go-" + "city-display", cityID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(cityID: number) {
     this.router.navigate([{
       outlets: {
-        gongtenk_go_editor: ["gongtenk_go-" + "city-detail", cityID]
+        github_com_thomaspeugeot_gongtenk_go_editor: ["github_com_thomaspeugeot_gongtenk_go-" + "city-detail", cityID]
       }
     }]);
   }
@@ -267,7 +272,7 @@ export class CitysTableComponent implements OnInit {
   setPresentationRouterOutlet(cityID: number) {
     this.router.navigate([{
       outlets: {
-        gongtenk_go_presentation: ["gongtenk_go-" + "city-presentation", cityID]
+        github_com_thomaspeugeot_gongtenk_go_presentation: ["github_com_thomaspeugeot_gongtenk_go-" + "city-presentation", cityID]
       }
     }]);
   }

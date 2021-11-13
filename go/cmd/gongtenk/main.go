@@ -14,7 +14,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
-	"github.com/thomaspeugot/gongtenk/go/visuals"
 
 	// for carto display
 	gongleaflet_controllers "github.com/fullstack-lang/gongleaflet/go/controllers"
@@ -22,13 +21,15 @@ import (
 	gongleaflet_orm "github.com/fullstack-lang/gongleaflet/go/orm"
 	_ "github.com/fullstack-lang/gongleaflet/ng"
 
-	gongtenk "github.com/thomapeugeot/gongtenk"
+	gongtenk "github.com/thomaspeugeot/gongtenk"
 
-	_ "github.com/thomapeugeot/gongtenk/go/icons"
+	_ "github.com/thomaspeugeot/gongtenk/go/icons"
 
-	gongtenk_controllers "github.com/thomapeugeot/gongtenk/go/controllers"
-	gongtenk_models "github.com/thomapeugeot/gongtenk/go/models"
-	gongtenk_orm "github.com/thomapeugeot/gongtenk/go/orm"
+	gongtenk_controllers "github.com/thomaspeugeot/gongtenk/go/controllers"
+	gongtenk_models "github.com/thomaspeugeot/gongtenk/go/models"
+	gongtenk_orm "github.com/thomaspeugeot/gongtenk/go/orm"
+
+	gongtenk_visuals "github.com/thomaspeugeot/gongtenk/go/visuals"
 
 	gongxlsx_controllers "github.com/fullstack-lang/gongxlsx/go/controllers"
 	gongxlsx_models "github.com/fullstack-lang/gongxlsx/go/models"
@@ -144,7 +145,7 @@ func main() {
 		twinCity.Twin = true
 	}
 
-	visuals.AttachVisualElementsToModelElements()
+	gongtenk_visuals.AttachVisualElementsToModelElements()
 
 	gongleaflet_models.Stage.Commit()
 	gongxlsx_models.Stage.Commit()

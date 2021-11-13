@@ -33,6 +33,13 @@
         <td class="mat-cell">{{city.Population}}</td>
     </tr>
     <tr class="mat-row">
+        <td class="mat-cell">Twin</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="city.Twin" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
         <td class="mat-cell">Country</td>
         <td class="mat-cell">{{city.Country ? city.Country.Name : ""}}</td>
     </tr>

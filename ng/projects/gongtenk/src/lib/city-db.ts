@@ -16,6 +16,7 @@ export class CityDB {
 	TwinLat: number = 0
 	TwinLng: number = 0
 	Population: number = 0
+	Twin: boolean = false
 
 	// insertion point for other declarations
 	Country?: CountryDB

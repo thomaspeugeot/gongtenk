@@ -401,7 +401,7 @@ export class SidebarComponent implements OnInit {
   setTableRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        gongtenk_go_table: ["gongtenk_go-" + path]
+        github_com_thomaspeugeot_gongtenk_go_table: ["github_com_thomaspeugeot_gongtenk_go-" + path]
       }
     }]);
   }
@@ -415,7 +415,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          gongtenk_go_table: ["gongtenk_go-" + path.toLowerCase()]
+          github_com_thomaspeugeot_gongtenk_go_table: ["github_com_thomaspeugeot_gongtenk_go-" + path.toLowerCase()]
         }
       }]);
     }
@@ -423,7 +423,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          gongtenk_go_presentation: ["gongtenk_go-" + structName.toLowerCase() + "-presentation", id]
+          github_com_thomaspeugeot_gongtenk_go_presentation: ["github_com_thomaspeugeot_gongtenk_go-" + structName.toLowerCase() + "-presentation", id]
         }
       }]);
     }
@@ -432,7 +432,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        gongtenk_go_editor: ["gongtenk_go-" + path.toLowerCase()]
+        github_com_thomaspeugeot_gongtenk_go_editor: ["github_com_thomaspeugeot_gongtenk_go-" + path.toLowerCase()]
       }
     }]);
   }
@@ -440,7 +440,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        gongtenk_go_editor: ["gongtenk_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
+        github_com_thomaspeugeot_gongtenk_go_editor: ["github_com_thomaspeugeot_gongtenk_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
       }
     }]);
   }

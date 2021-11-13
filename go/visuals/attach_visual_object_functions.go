@@ -1,9 +1,10 @@
 package visuals
 
 import (
-	"gongtenk/go/icons"
-	"gongtenk/go/models"
 	"log"
+
+	"github.com/thomaspeugeot/gongtenk/go/icons"
+	"github.com/thomaspeugeot/gongtenk/go/models"
 
 	gongleaflet_models "github.com/fullstack-lang/gongleaflet/go/models"
 )
