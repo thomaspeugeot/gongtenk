@@ -62,6 +62,7 @@ github.com/kr/text
 # github.com/leodido/go-urn v1.2.1
 github.com/leodido/go-urn
 # github.com/mattn/go-isatty v0.0.14
+## explicit
 github.com/mattn/go-isatty
 # github.com/mattn/go-sqlite3 v1.14.9
 github.com/mattn/go-sqlite3
