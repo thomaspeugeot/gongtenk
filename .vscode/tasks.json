@@ -183,6 +183,16 @@
       "group": "build"
     },
     {
+      "label": "00 - docker rmi -f $(docker images -aq)",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "docker rmi -f $(docker images -aq)",
+      "args": [],
+      "group": "build"
+    },
+    {
       "label": "00 - docker build --tag docker-gongtenk .",
       "type": "shell",
       "options": {
@@ -209,6 +219,21 @@
         "-it",
         "docker-gongtenk",
         "sh"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "00 - docker run --publish 8080:8080 docker-gontenk",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "command": "docker",
+      "args": [
+        "run",
+        "--publish",
+        "8080:8080",
+        "docker-gongtenk",
       ],
       "group": "build"
     },

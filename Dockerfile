@@ -1,9 +1,10 @@
 FROM golang:1.16-alpine
 
 RUN apk add git
+RUN apk add --update gcc musl-dev
 
 # Set destination for COPY
-WORKDIR /
+WORKDIR /gongtenk
 
 # Download Go modules
 COPY go.mod .
@@ -17,7 +18,8 @@ ADD ng ng
 COPY embed.go ./
 
 # Build
-WORKDIR /go/cmd/gongtenk
+RUN go get
+WORKDIR /gongtenk/go/cmd/gongtenk
 RUN go build
 
 # This is for documentation purposes only.
@@ -32,4 +34,4 @@ EXPOSE 8080
 #ENV HTTP_PORT=8081
 
 # Run
-# CMD [ "/docker-gongtenk" ]
+CMD [ "/gongtenk/go/cmd/gongtenk/gongtenk" ]
