@@ -8,7 +8,7 @@ github.com/fullstack-lang/gongleaflet/go/controllers
 github.com/fullstack-lang/gongleaflet/go/models
 github.com/fullstack-lang/gongleaflet/go/orm
 github.com/fullstack-lang/gongleaflet/ng
-# github.com/fullstack-lang/gongxlsx v0.0.0-20211110082428-9aa1df985333
+# github.com/fullstack-lang/gongxlsx v0.0.0-20211113010055-38f5ed415e0a
 ## explicit
 github.com/fullstack-lang/gongxlsx/go/controllers
 github.com/fullstack-lang/gongxlsx/go/models

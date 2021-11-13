@@ -1,11 +1,10 @@
 FROM golang:1.16-alpine
 
 RUN apk add git
-# FROM golang:1.16 AS build very big image
-
+RUN apk add --update gcc musl-dev
 
 # Set destination for COPY
-WORKDIR /
+WORKDIR /gongtenk
 
 # Download Go modules
 COPY go.mod .
@@ -15,12 +14,12 @@ RUN go mod download
 # Copy the source code. Note the slash at the end, as explained in
 # https://docs.docker.com/engine/reference/builder/#copy
 ADD go go
-ADD ng/dist/ng ng/dist/ng
+ADD ng ng
 COPY embed.go ./
 
 # Build
-WORKDIR /go/cmd/gongtenk
-RUN go get gongtenk
+RUN go get
+WORKDIR /gongtenk/go/cmd/gongtenk
 RUN go build
 
 # This is for documentation purposes only.
@@ -35,4 +34,4 @@ EXPOSE 8080
 #ENV HTTP_PORT=8081
 
 # Run
-# CMD [ "/docker-gongtenk" ]
+CMD [ "/gongtenk/go/cmd/gongtenk/gongtenk" ]
