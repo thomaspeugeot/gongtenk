@@ -21,12 +21,6 @@
       "group": "build"
     },
     {
-      "label": "10 - docker build",
-      "type": "shell",
-      "command": "docker build --tag docker-gongtenk .",
-      "group": "build"
-    },
-    {
       "label": "05 - go test gongtenk",
       "type": "shell",
       "options": {
@@ -193,7 +187,7 @@
       "group": "build"
     },
     {
-      "label": "00 - docker build --tag docker-gongtenk .",
+      "label": "D00 - docker build --tag docker-gongtenk .",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -208,7 +202,7 @@
       "group": "build"
     },
     {
-      "label": "00 - docker image ls",
+      "label": "D01- docker image ls",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -221,7 +215,7 @@
       "group": "build"
     },
     {
-      "label": "00 - docker tag docker-gongtenk europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+      "label": "D01 - docker tag docker-gongtenk europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -235,7 +229,7 @@
       "group": "build"
     },
     {
-      "label": "00 - docker push europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+      "label": "D03 - docker push europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -248,7 +242,7 @@
       "group": "build"
     },
     {
-      "label": "00 - gcloud run deploy docker-gongtenk --image europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+      "label": "D04 - gcloud run deploy docker-gongtenk --image europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -276,7 +270,7 @@
       "group": "build"
     },
     {
-      "label": "00 - docker run -it docker-gongtenk sh",
+      "label": "D01 - docker run -it docker-gongtenk sh",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
@@ -341,5 +335,19 @@
       ],
       "group": "build"
     },
+    {
+      "label": "000 - Build & deploy",
+      "type": "shell",
+      "command": "echo Hello",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "01 - gongc gongtenk",
+        "D00 - docker build --tag docker-gongtenk .",
+        "D01 - docker tag docker-gongtenk europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+        "D03 - docker push europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1",
+        "D04 - gcloud run deploy docker-gongtenk --image europe-west1-docker.pkg.dev/laundromat-326906/gongtenk/docker-gongtenk:tag1"
+      ],
+      "group": "build",
+    }
   ]
 }
