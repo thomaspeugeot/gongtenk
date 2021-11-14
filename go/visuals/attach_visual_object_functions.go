@@ -1,8 +1,10 @@
 package visuals
 
 import (
+	"fmt"
 	"log"
 	"sort"
+	"time"
 
 	"github.com/thomaspeugeot/gongtenk/go/icons"
 	"github.com/thomaspeugeot/gongtenk/go/models"
@@ -68,18 +70,28 @@ func attachCircle(
 
 func AttachVisualElementsToModelElements() {
 
+	// reset all tracks
+	gongleaflet_models.Stage.VisualTracks = make(map[*gongleaflet_models.VisualTrack]struct{})
+	gongleaflet_models.Stage.VisualTracks_mapString = make(map[string]*gongleaflet_models.VisualTrack)
+	gongleaflet_models.Stage.Commit()
+
 	cityOrdered := []*models.City{}
 	for city := range models.Stage.Citys {
 		cityOrdered = append(cityOrdered, city)
 	}
 	// sort cities according to their population
 	sort.Slice(cityOrdered[:], func(i, j int) bool {
-		return cityOrdered[i].Population < cityOrdered[j].Population
+		return cityOrdered[i].Population > cityOrdered[j].Population
 	})
+
+	// checkout the number of cities
+	models.ConfigurationSingloton.Checkout()
 
 	for index, city := range cityOrdered {
 		_ = city
-		if index > models.ConfigurationSingloton.NumberOfCitiesToDisplay {
+
+		// since there are twin cities, one need to multiply by 2
+		if index > models.ConfigurationSingloton.NumberOfCitiesToDisplay*2 {
 			continue
 		}
 
@@ -90,5 +102,31 @@ func AttachVisualElementsToModelElements() {
 		}
 		gongleaflet_models.Stage.Commit()
 	}
+}
 
+func StartVisualObjectRefresherThread() {
+
+	go func() {
+
+		var commitNb uint
+		var commitNbFromFront uint
+
+		for true {
+
+			if models.Stage.BackRepo != nil {
+				// check if commit nb has increased
+				if commitNb < models.Stage.BackRepo.GetLastCommitNb() {
+					commitNb = models.Stage.BackRepo.GetLastCommitNb()
+					fmt.Println("Backend Commit increased")
+					AttachVisualElementsToModelElements()
+				}
+				if commitNbFromFront < models.Stage.BackRepo.GetLastPushFromFrontNb() {
+					commitNbFromFront = models.Stage.BackRepo.GetLastPushFromFrontNb()
+					fmt.Println("Front Commit increased")
+					AttachVisualElementsToModelElements()
+				}
+				time.Sleep(1 * time.Second)
+			}
+		}
+	}()
 }

@@ -28,7 +28,6 @@ import (
 	gongtenk_controllers "github.com/thomaspeugeot/gongtenk/go/controllers"
 	gongtenk_models "github.com/thomaspeugeot/gongtenk/go/models"
 	gongtenk_orm "github.com/thomaspeugeot/gongtenk/go/orm"
-
 	gongtenk_visuals "github.com/thomaspeugeot/gongtenk/go/visuals"
 
 	gongxlsx_controllers "github.com/fullstack-lang/gongxlsx/go/controllers"
@@ -37,6 +36,7 @@ import (
 	_ "github.com/fullstack-lang/gongxlsx/ng"
 
 	"github.com/thomaspeugeot/tkv/translation"
+	// load visuals package
 )
 
 var (
@@ -88,77 +88,74 @@ func main() {
 		c.Abort()
 	})
 
-	go func() {
-		// load cities
-		file := new(gongxlsx_models.XLFile).Stage()
-		file.Open("worldcities_fra_hti.xlsx")
+	// load cities
+	file := new(gongxlsx_models.XLFile).Stage()
+	file.Open("worldcities_fra_hti.xlsx")
 
-		// load tenk translation
-		currentTranslation := translation.GetTranslateCurrent()
+	// load tenk translation
+	currentTranslation := translation.GetTranslateCurrent()
 
-		// setup translation
-		translation.Info.SetOutput(ioutil.Discard)
+	// setup translation
+	translation.Info.SetOutput(ioutil.Discard)
 
-		log.Printf("Created translation")
+	log.Printf("Created translation")
 
-		citiesSheet := file.Sheets[0]
-		for idx, row := range citiesSheet.Rows {
-			if idx == 0 {
-				continue
-			}
-			log.Printf(".")
-			city := new(gongtenk_models.City).Stage()
-			city.Name = row.Cells[0].Name
-			if lat, err := strconv.ParseFloat(row.Cells[2].Name, 64); err == nil {
-				city.Lat = lat
-			}
-			if lng, err := strconv.ParseFloat(row.Cells[3].Name, 64); err == nil {
-				city.Lng = lng
-			}
-			if population, err := strconv.ParseInt(row.Cells[9].Name, 10, 64); err == nil {
-				city.Population = int(population)
-			}
-
-			countryString := row.Cells[4].Name
-			country := gongtenk_models.Stage.Countrys_mapString[countryString]
-			if country == nil {
-				country = (&gongtenk_models.Country{
-					Name: countryString,
-				}).Stage()
-			}
-			city.Country = country
-
-			if countryString == "France" {
-				currentTranslation.SetSourceCountry("fra")
-				currentTranslation.SetTargetCountry("hti")
-			} else {
-				currentTranslation.SetSourceCountry("hti")
-				currentTranslation.SetTargetCountry("fra")
-			}
-			_, _, _, xSpread, ySpread, _ :=
-				currentTranslation.BodyCoordsInSourceCountry(city.Lat, city.Lng)
-
-			latTarget, lngTarget := currentTranslation.LatLngToXYInTargetCountry(xSpread, ySpread)
-			city.TwinLat = latTarget
-			city.TwinLng = lngTarget
-
-			twinCity := new(gongtenk_models.City).Stage()
-			*twinCity = *city
-			twinCity.Lat = city.TwinLat
-			twinCity.Lng = city.TwinLng
-			twinCity.Twin = true
+	citiesSheet := file.Sheets[0]
+	for idx, row := range citiesSheet.Rows {
+		if idx == 0 {
+			continue
+		}
+		fmt.Printf(".")
+		city := new(gongtenk_models.City).Stage()
+		city.Name = row.Cells[0].Name
+		if lat, err := strconv.ParseFloat(row.Cells[2].Name, 64); err == nil {
+			city.Lat = lat
+		}
+		if lng, err := strconv.ParseFloat(row.Cells[3].Name, 64); err == nil {
+			city.Lng = lng
+		}
+		if population, err := strconv.ParseInt(row.Cells[9].Name, 10, 64); err == nil {
+			city.Population = int(population)
 		}
 
-		log.Printf("Created cities")
+		countryString := row.Cells[4].Name
+		country := gongtenk_models.Stage.Countrys_mapString[countryString]
+		if country == nil {
+			country = (&gongtenk_models.Country{
+				Name: countryString,
+			}).Stage()
+		}
+		city.Country = country
 
-		gongtenk_visuals.AttachVisualElementsToModelElements()
-		log.Printf("Attached cities to visual counterparts")
+		if countryString == "France" {
+			currentTranslation.SetSourceCountry("fra")
+			currentTranslation.SetTargetCountry("hti")
+		} else {
+			currentTranslation.SetSourceCountry("hti")
+			currentTranslation.SetTargetCountry("fra")
+		}
+		_, _, _, xSpread, ySpread, _ :=
+			currentTranslation.BodyCoordsInSourceCountry(city.Lat, city.Lng)
 
-		gongtenk_models.Stage.Commit()
-	}()
+		latTarget, lngTarget := currentTranslation.LatLngToXYInTargetCountry(xSpread, ySpread)
+		city.TwinLat = latTarget
+		city.TwinLng = lngTarget
 
+		twinCity := new(gongtenk_models.City).Stage()
+		*twinCity = *city
+		twinCity.Lat = city.TwinLat
+		twinCity.Lng = city.TwinLng
+		twinCity.Twin = true
+	}
+
+	log.Printf("Created cities")
+	log.Printf("Attached cities to visual counterparts")
+
+	gongtenk_models.Stage.Commit()
 	gongleaflet_models.Stage.Commit()
 	gongxlsx_models.Stage.Commit()
+
+	gongtenk_visuals.StartVisualObjectRefresherThread()
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

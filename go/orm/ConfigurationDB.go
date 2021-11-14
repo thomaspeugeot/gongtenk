@@ -63,9 +63,6 @@ type ConfigurationDB struct {
 
 	// Declation for basic field configurationDB.NumberOfCitiesToDisplay {{BasicKind}} (to be completed)
 	NumberOfCitiesToDisplay_Data sql.NullInt64
-
-	// Declation for basic field configurationDB.NumberOfCitiesToDisplay_real {{BasicKind}} (to be completed)
-	NumberOfCitiesToDisplay_real_Data sql.NullInt64
 	// encoding of pointers
 	ConfigurationPointersEnconding
 }
@@ -90,8 +87,6 @@ type ConfigurationWOP struct {
 	Name string `xlsx:"1"`
 
 	NumberOfCitiesToDisplay int `xlsx:"2"`
-
-	NumberOfCitiesToDisplay_real int `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -100,7 +95,6 @@ var Configuration_Fields = []string{
 	"ID",
 	"Name",
 	"NumberOfCitiesToDisplay",
-	"NumberOfCitiesToDisplay_real",
 }
 
 type BackRepoConfigurationStruct struct {
@@ -387,9 +381,6 @@ func (configurationDB *ConfigurationDB) CopyBasicFieldsFromConfiguration(configu
 
 	configurationDB.NumberOfCitiesToDisplay_Data.Int64 = int64(configuration.NumberOfCitiesToDisplay)
 	configurationDB.NumberOfCitiesToDisplay_Data.Valid = true
-
-	configurationDB.NumberOfCitiesToDisplay_real_Data.Int64 = int64(configuration.NumberOfCitiesToDisplay_real)
-	configurationDB.NumberOfCitiesToDisplay_real_Data.Valid = true
 }
 
 // CopyBasicFieldsFromConfigurationWOP
@@ -401,9 +392,6 @@ func (configurationDB *ConfigurationDB) CopyBasicFieldsFromConfigurationWOP(conf
 
 	configurationDB.NumberOfCitiesToDisplay_Data.Int64 = int64(configuration.NumberOfCitiesToDisplay)
 	configurationDB.NumberOfCitiesToDisplay_Data.Valid = true
-
-	configurationDB.NumberOfCitiesToDisplay_real_Data.Int64 = int64(configuration.NumberOfCitiesToDisplay_real)
-	configurationDB.NumberOfCitiesToDisplay_real_Data.Valid = true
 }
 
 // CopyBasicFieldsToConfiguration
@@ -411,7 +399,6 @@ func (configurationDB *ConfigurationDB) CopyBasicFieldsToConfiguration(configura
 	// insertion point for checkout of basic fields (back repo to stage)
 	configuration.Name = configurationDB.Name_Data.String
 	configuration.NumberOfCitiesToDisplay = int(configurationDB.NumberOfCitiesToDisplay_Data.Int64)
-	configuration.NumberOfCitiesToDisplay_real = int(configurationDB.NumberOfCitiesToDisplay_real_Data.Int64)
 }
 
 // CopyBasicFieldsToConfigurationWOP
@@ -420,7 +407,6 @@ func (configurationDB *ConfigurationDB) CopyBasicFieldsToConfigurationWOP(config
 	// insertion point for checkout of basic fields (back repo to stage)
 	configuration.Name = configurationDB.Name_Data.String
 	configuration.NumberOfCitiesToDisplay = int(configurationDB.NumberOfCitiesToDisplay_Data.Int64)
-	configuration.NumberOfCitiesToDisplay_real = int(configurationDB.NumberOfCitiesToDisplay_real_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all ConfigurationDB instances in the backrepo

@@ -72,9 +72,6 @@ export class ConfigurationsTableComponent implements OnInit {
         case 'NumberOfCitiesToDisplay':
           return configurationDB.NumberOfCitiesToDisplay;
 
-        case 'NumberOfCitiesToDisplay_real':
-          return configurationDB.NumberOfCitiesToDisplay_real;
-
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -91,7 +88,6 @@ export class ConfigurationsTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += configurationDB.Name.toLowerCase()
       mergedContent += configurationDB.NumberOfCitiesToDisplay.toString()
-      mergedContent += configurationDB.NumberOfCitiesToDisplay_real.toString()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -144,13 +140,11 @@ export class ConfigurationsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "NumberOfCitiesToDisplay",
-        "NumberOfCitiesToDisplay_real",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "NumberOfCitiesToDisplay",
-        "NumberOfCitiesToDisplay_real",
       ]
       this.selection = new SelectionModel<ConfigurationDB>(allowMultiSelect, this.initialSelection);
     }

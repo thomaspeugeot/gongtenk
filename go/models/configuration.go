@@ -6,13 +6,9 @@ type Configuration struct {
 
 	// user request
 	NumberOfCitiesToDisplay int
-
-	// is the same as user request when display has been updated
-	NumberOfCitiesToDisplay_real int
 }
 
 var ConfigurationSingloton = (&Configuration{
-	Name:                         "Gong Tenk Configuration",
-	NumberOfCitiesToDisplay:      200,
-	NumberOfCitiesToDisplay_real: 200,
+	Name:                    "Gong Tenk Configuration",
+	NumberOfCitiesToDisplay: 30,
 }).Stage()
