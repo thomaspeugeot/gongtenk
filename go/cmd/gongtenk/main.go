@@ -28,7 +28,6 @@ import (
 	gongtenk_controllers "github.com/thomaspeugeot/gongtenk/go/controllers"
 	gongtenk_models "github.com/thomaspeugeot/gongtenk/go/models"
 	gongtenk_orm "github.com/thomaspeugeot/gongtenk/go/orm"
-
 	gongtenk_visuals "github.com/thomaspeugeot/gongtenk/go/visuals"
 
 	gongxlsx_controllers "github.com/fullstack-lang/gongxlsx/go/controllers"
@@ -37,6 +36,7 @@ import (
 	_ "github.com/fullstack-lang/gongxlsx/ng"
 
 	"github.com/thomaspeugeot/tkv/translation"
+	// load visuals package
 )
 
 var (
@@ -98,11 +98,14 @@ func main() {
 	// setup translation
 	translation.Info.SetOutput(ioutil.Discard)
 
+	log.Printf("Created translation")
+
 	citiesSheet := file.Sheets[0]
 	for idx, row := range citiesSheet.Rows {
 		if idx == 0 {
 			continue
 		}
+		fmt.Printf(".")
 		city := new(gongtenk_models.City).Stage()
 		city.Name = row.Cells[0].Name
 		if lat, err := strconv.ParseFloat(row.Cells[2].Name, 64); err == nil {
@@ -145,11 +148,14 @@ func main() {
 		twinCity.Twin = true
 	}
 
-	gongtenk_visuals.AttachVisualElementsToModelElements()
+	log.Printf("Created cities")
+	log.Printf("Attached cities to visual counterparts")
 
+	gongtenk_models.Stage.Commit()
 	gongleaflet_models.Stage.Commit()
 	gongxlsx_models.Stage.Commit()
-	gongtenk_models.Stage.Commit()
+
+	gongtenk_visuals.StartVisualObjectRefresherThread()
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

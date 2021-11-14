@@ -15,6 +15,9 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Citys           map[*City]struct{}
 	Citys_mapString map[string]*City
 
+	Configurations           map[*Configuration]struct{}
+	Configurations_mapString map[string]*Configuration
+
 	Countrys           map[*Country]struct{}
 	Countrys_mapString map[string]*Country
 
@@ -45,6 +48,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitCity(city *City)
 	CheckoutCity(city *City)
+	CommitConfiguration(configuration *Configuration)
+	CheckoutConfiguration(configuration *Configuration)
 	CommitCountry(country *Country)
 	CheckoutCountry(country *Country)
 	CommitIndividual(individual *Individual)
@@ -57,6 +62,9 @@ type BackRepoInterface interface {
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Citys:           make(map[*City]struct{}),
 	Citys_mapString: make(map[string]*City),
+
+	Configurations:           make(map[*Configuration]struct{}),
+	Configurations_mapString: make(map[string]*Configuration),
 
 	Countrys:           make(map[*Country]struct{}),
 	Countrys_mapString: make(map[string]*Country),
@@ -207,6 +215,108 @@ func DeleteORMCity(city *City) {
 	city.Unstage()
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMCity(city)
+	}
+}
+
+func (stage *StageStruct) getConfigurationOrderedStructWithNameField() []*Configuration {
+	// have alphabetical order generation
+	configurationOrdered := []*Configuration{}
+	for configuration := range stage.Configurations {
+		configurationOrdered = append(configurationOrdered, configuration)
+	}
+	sort.Slice(configurationOrdered[:], func(i, j int) bool {
+		return configurationOrdered[i].Name < configurationOrdered[j].Name
+	})
+	return configurationOrdered
+}
+
+// Stage puts configuration to the model stage
+func (configuration *Configuration) Stage() *Configuration {
+	Stage.Configurations[configuration] = __member
+	Stage.Configurations_mapString[configuration.Name] = configuration
+
+	return configuration
+}
+
+// Unstage removes configuration off the model stage
+func (configuration *Configuration) Unstage() *Configuration {
+	delete(Stage.Configurations, configuration)
+	delete(Stage.Configurations_mapString, configuration.Name)
+	return configuration
+}
+
+// commit configuration to the back repo (if it is already staged)
+func (configuration *Configuration) Commit() *Configuration {
+	if _, ok := Stage.Configurations[configuration]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitConfiguration(configuration)
+		}
+	}
+	return configuration
+}
+
+// Checkout configuration to the back repo (if it is already staged)
+func (configuration *Configuration) Checkout() *Configuration {
+	if _, ok := Stage.Configurations[configuration]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutConfiguration(configuration)
+		}
+	}
+	return configuration
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of configuration to the model stage
+func (configuration *Configuration) StageCopy() *Configuration {
+	_configuration := new(Configuration)
+	*_configuration = *configuration
+	_configuration.Stage()
+	return _configuration
+}
+
+// StageAndCommit appends configuration to the model stage and commit to the orm repo
+func (configuration *Configuration) StageAndCommit() *Configuration {
+	configuration.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMConfiguration(configuration)
+	}
+	return configuration
+}
+
+// DeleteStageAndCommit appends configuration to the model stage and commit to the orm repo
+func (configuration *Configuration) DeleteStageAndCommit() *Configuration {
+	configuration.Unstage()
+	DeleteORMConfiguration(configuration)
+	return configuration
+}
+
+// StageCopyAndCommit appends a copy of configuration to the model stage and commit to the orm repo
+func (configuration *Configuration) StageCopyAndCommit() *Configuration {
+	_configuration := new(Configuration)
+	*_configuration = *configuration
+	_configuration.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMConfiguration(configuration)
+	}
+	return _configuration
+}
+
+// CreateORMConfiguration enables dynamic staging of a Configuration instance
+func CreateORMConfiguration(configuration *Configuration) {
+	configuration.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMConfiguration(configuration)
+	}
+}
+
+// DeleteORMConfiguration enables dynamic staging of a Configuration instance
+func DeleteORMConfiguration(configuration *Configuration) {
+	configuration.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMConfiguration(configuration)
 	}
 }
 
@@ -417,12 +527,14 @@ func DeleteORMIndividual(individual *Individual) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMCity(City *City)
+	CreateORMConfiguration(Configuration *Configuration)
 	CreateORMCountry(Country *Country)
 	CreateORMIndividual(Individual *Individual)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMCity(City *City)
+	DeleteORMConfiguration(Configuration *Configuration)
 	DeleteORMCountry(Country *Country)
 	DeleteORMIndividual(Individual *Individual)
 }
@@ -430,6 +542,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Citys = make(map[*City]struct{})
 	stage.Citys_mapString = make(map[string]*City)
+
+	stage.Configurations = make(map[*Configuration]struct{})
+	stage.Configurations_mapString = make(map[string]*Configuration)
 
 	stage.Countrys = make(map[*Country]struct{})
 	stage.Countrys_mapString = make(map[string]*Country)
@@ -442,6 +557,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Citys = nil
 	stage.Citys_mapString = nil
+
+	stage.Configurations = nil
+	stage.Configurations_mapString = nil
 
 	stage.Countrys = nil
 	stage.Countrys_mapString = nil

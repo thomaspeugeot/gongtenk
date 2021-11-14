@@ -36,12 +36,14 @@ func (checkoutScheduler *CheckoutScheduler) StartThread() {
 				// 	" commit from the front ", Stage.BackRepo.GetLastPushFromFrontNb())
 
 				// check out modifications initiated by the front
-				if lastCommitNbFromFront < Stage.BackRepo.GetLastPushFromFrontNb() {
+				if Stage.BackRepo != nil {
+					if lastCommitNbFromFront < Stage.BackRepo.GetLastPushFromFrontNb() {
 
-					Stage.Checkout()
-					fmt.Println("Checking out")
-					checkoutScheduler.NbUpdatesFromFront = checkoutScheduler.NbUpdatesFromFront + 1
-					lastCommitNbFromFront = Stage.BackRepo.GetLastPushFromFrontNb()
+						Stage.Checkout()
+						fmt.Println("Checking out")
+						checkoutScheduler.NbUpdatesFromFront = checkoutScheduler.NbUpdatesFromFront + 1
+						lastCommitNbFromFront = Stage.BackRepo.GetLastPushFromFrontNb()
+					}
 				}
 			}
 		}

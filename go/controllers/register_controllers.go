@@ -50,6 +50,13 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/citys/:id", UpdateCity)
 		v1.DELETE("/v1/citys/:id", DeleteCity)
 
+		v1.GET("/v1/configurations", GetConfigurations)
+		v1.GET("/v1/configurations/:id", GetConfiguration)
+		v1.POST("/v1/configurations", PostConfiguration)
+		v1.PATCH("/v1/configurations/:id", UpdateConfiguration)
+		v1.PUT("/v1/configurations/:id", UpdateConfiguration)
+		v1.DELETE("/v1/configurations/:id", DeleteConfiguration)
+
 		v1.GET("/v1/countrys", GetCountrys)
 		v1.GET("/v1/countrys/:id", GetCountry)
 		v1.POST("/v1/countrys", PostCountry)
