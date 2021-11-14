@@ -2,9 +2,10 @@
 github.com/ajstarks/svgo/float
 # github.com/frankban/quicktest v1.13.1
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongleaflet v0.0.0-20211113151609-afdbd4c02e54
+# github.com/fullstack-lang/gongleaflet v0.0.0-20211114164624-509db910a317
 ## explicit
 github.com/fullstack-lang/gongleaflet/go/controllers
+github.com/fullstack-lang/gongleaflet/go/icons
 github.com/fullstack-lang/gongleaflet/go/models
 github.com/fullstack-lang/gongleaflet/go/orm
 github.com/fullstack-lang/gongleaflet/ng

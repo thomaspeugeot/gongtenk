@@ -6,9 +6,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/thomaspeugeot/gongtenk/go/icons"
 	"github.com/thomaspeugeot/gongtenk/go/models"
 
+	gongleaflet_icons "github.com/fullstack-lang/gongleaflet/go/icons"
 	gongleaflet_models "github.com/fullstack-lang/gongleaflet/go/models"
 )
 
@@ -96,9 +96,9 @@ func AttachVisualElementsToModelElements() {
 		}
 
 		if city.Twin {
-			attachVisualTrack(city, icons.Dot_10, gongleaflet_models.GREY, false, false)
+			attachVisualTrack(city, gongleaflet_icons.Dot_10Icon, gongleaflet_models.GREY, false, false)
 		} else {
-			attachVisualTrack(city, icons.Dot_10, gongleaflet_models.GREEN, false, false)
+			attachVisualTrack(city, gongleaflet_icons.Dot_10Icon, gongleaflet_models.GREEN, false, false)
 		}
 		gongleaflet_models.Stage.Commit()
 	}
